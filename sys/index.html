@@ -6,36 +6,18 @@
 
 <script type="module">
 
-/* -----------------------------
-   1. AXIOM + VEC empfangen
------------------------------- */
 const AXIOM = JSON.parse(localStorage.getItem("AXIOM_VEC")) || null;
 const VEC   = JSON.parse(localStorage.getItem("ALLXALL_LIGHT")) || null;
 
-/* -----------------------------
-   2. STAGE‑Move erzeugen
------------------------------- */
 function stageEnter(mode){
-    const move = {
-        XI: mode,
-        IX: mode,
-        x4: mode,
-        AXIOM,
-        VEC
-    };
-
+    const move = { XI: mode, IX: mode, x4: mode, AXIOM, VEC };
     localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
     localStorage.setItem("STAGE_MODE", mode);
-
     return move;
 }
 
-/* -----------------------------
-   3. FUSION erzeugen
------------------------------- */
 function fusion(){
     const STAGE = JSON.parse(localStorage.getItem("STAGE_MOVE")) || null;
-
     const FUSION = {
         TEAM: "Team² Work³",
         VEC,
@@ -44,14 +26,10 @@ function fusion(){
         MODE: localStorage.getItem("STAGE_MODE"),
         TIME: Date.now()
     };
-
     localStorage.setItem("FUSION_UNIVERSUM", JSON.stringify(FUSION));
     return FUSION;
 }
 
-/* -----------------------------
-   4. NC‑Router
------------------------------- */
 const NC = {
     S: "./sys/index.html",
     O: "./O/index.html",
@@ -61,27 +39,20 @@ const NC = {
     H: "./H/index.html"
 };
 
-/* -----------------------------
-   5. Startmodus
------------------------------- */
 let mode = "S";
 
-/* -----------------------------
-   6. Start → Universum
------------------------------- */
 function go(){
-    const move   = stageEnter(mode);
+    const move = stageEnter(mode);
     const fusionData = fusion();
-
-    console.log("STAGE‑MOVE:", move);
-    console.log("FUSION:", fusionData);
-
     window.location.href = NC[mode];
 }
+
+window.addEventListener("DOMContentLoaded", go);
 
 </script>
 </head>
 
 <body style="background:#000; color:#0f0; font-family:Consolas;">
-
-<h1>RESPO.ai ·
+<h1>RESPO.ai · Station startet…</h1>
+</body>
+</html>

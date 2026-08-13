@@ -1,0 +1,14 @@
+this.tmp.push(r);
+this.tmp.push((r * (this.tmp.length % 7 + 1)) ^ (r + 3));
+for (let i = 0; i < 9; i++)
+for (let j = 0; j < 9; j++)
+for (let k = 0; k < 7; k++)
+for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+        tmpScore = decide(...)
+        tmp.push(tmpScore)
+    }
+}
+for (let k = 0; k < 7; k++) {
+    result += this.tmp[(k * 108) % this.tmp.length];
+}

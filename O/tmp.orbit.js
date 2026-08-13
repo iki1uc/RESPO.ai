@@ -7,3 +7,14 @@ return function animateAll(){
     animateStation();
     animateStationLinear();
 };
+import { OPTA } from "../S/opta.vector.js";
+
+export function OrbitCompute(input){
+    const engine = new AxiomEngine(RESPO_MATRIX);
+    const score = engine.decide(input, "ds9-orbit");
+
+    return {
+        score,
+        opta: OPTA.orbitEnter("O")
+    };
+}

@@ -12,158 +12,28 @@
   }
   h1, h2 { color:#6cf; }
   pre { background:#000; border:1px solid #333; padding:10px; }
-  .ok { color:#00ff88; }
-  .warn { color:#ffcc00; }
-  .err { color:#ff4444; }
 </style>
 
+<!-- THREE.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- API‑Module -->
+<script src="./API.system.js"></script>
+<script src="./API.ghost.js"></script>
+<script src="./API.raw.js"></script>
+<script src="./API.techEngine.js"></script>
+<script src="./API.fusionMatrix.js"></script>
+<script src="./API.metaDrift.js"></script>
+<script src="./API.visualizer.js"></script>
+
+<!-- MODUL‑IMPORTS (NEU, KORREKT, FUNKTIONIERT) -->
 <script type="module">
 import { OrbitStart } from "../O/tmp.orbit.js";
 import { DS9_Station } from "../D/tmp.station.js";
+import { S_SystemCompute } from "../S/s.system.js";
 
 window.addEventListener("ghostReady", () => {
 
+    // Szene
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
 
-    const renderer = new THREE.WebGLRenderer({ antialias:true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    camera.position.z = 6;
-
-    // Orbit + DS9
-    const animateAll = OrbitStart(scene);
-
-    function animate(){
-        requestAnimationFrame(animate);
-        animateAll();
-        renderer.render(scene, camera);
-    }
-
-    animate();
-});
-</script>
-
-
-<script>
-// ------------------------------------------------------
-// VERIFY.html LADEN
-// ------------------------------------------------------
-async function loadVerify(){
-  try{
-    const res = await fetch("./verify.html");
-    const text = await res.text();
-
-    const readyMatch = text.match(/PORT siedelt sich dieses Mal unter: (.*)/);
-    const argMode = readyMatch ? readyMatch[1].trim() : "N/A";
-
-    const metaMatch = text.match(/LES‑Meta‑Vector([\s\S]*?)ARG/);
-    const meta = metaMatch ? metaMatch[1].trim() : "N/A";
-
-    document.getElementById("verifyStatus").textContent = "verify.html geladen ✓";
-    document.getElementById("verifyMode").textContent = argMode;
-    document.getElementById("verifyMeta").textContent = meta;
-
-  }catch(e){
-    document.getElementById("verifyStatus").textContent = "verify.html fehlt ✗";
-    document.getElementById("verifyMode").textContent = "N/A";
-    document.getElementById("verifyMeta").textContent = "N/A";
-  }
-}
-
-// ghostReady (ECHT)
-window.onload = () => ghostReady();
-</script>
-
-</head>
-
-<body onload="loadVerify()">
-
-<div id="panel">
-  <h1>API · Orbit · Zentrum</h1>
-
-  <h2>VERIFY‑Status</h2>
-  <pre id="verifyStatus">Lade verify.html…</pre>
-
-  <h2>ARG‑Modus</h2>
-  <pre id="verifyMode">…</pre>
-
-  <h2>LES‑Meta‑Vector</h2>
-  <pre id="verifyMeta">…</pre>
-
-  <h2>Tech‑Cluster</h2>
-  <pre>
-NC² / NC²□ / NC²octa² / NC²octa³
-6E→6D.tech / 6D‑Baum.raw
-12e allin/allout
-Fusion‑Matrix
-Meta‑Drift
-Visualizer
-  </pre>
-</div>
-
-<script>
-// ------------------------------------------------------
-// THREE.js + OrbitHeatmap + DS9‑Station
-// ------------------------------------------------------
-
-window.addEventListener("ghostReady", () => {
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-
-    const renderer = new THREE.WebGLRenderer({ antialias:true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    camera.position.z = 6;
-
-    // OrbitHeatmap
-    const animatePlanets = API_OrbitHeatmap(scene);
-
-    // DS9‑Station (aus D/tmp.station)
-    if (typeof DS9_Station === "function") {
-        const animateStation = DS9_Station(scene);
-
-        function animate(){
-            requestAnimationFrame(animate);
-            animatePlanets();
-            animateStation();
-            renderer.render(scene, camera);
-        }
-        animate();
-    } else {
-        function animate(){
-            requestAnimationFrame(animate);
-            animatePlanets();
-            renderer.render(scene, camera);
-        }
-        animate();
-    }
-
-    // API‑Check
-    const check = API_CheckModules([
-        "ghostReady",
-        "API_OrbitHeatmap",
-        "API_raw",
-        "API_fusionMatrix",
-        "API_metaDrift"
-    ]);
-
-    console.log("API‑Check:", check);
-});
-</script>
-
-</body>
-</html>

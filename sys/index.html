@@ -16,20 +16,11 @@
   .warn { color:#ffcc00; }
   .err { color:#ff4444; }
 </style>
-const animatePlanets = API_OrbitHeatmap(scene);
-const check = API_CheckModules([
-    "ghostReady",
-    "API_OrbitHeatmap",
-    "API_raw",
-    "API_fusionMatrix",
-    "API_metaDrift"
-]);
-console.log("API‑Check:", check);
 
 <!-- THREE.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-<!-- API‑Module (NUR JS, keine HTML‑Dateien laden!) -->
+<!-- API‑Module -->
 <script src="./API.system.js"></script>
 <script src="./API.ghost.js"></script>
 <script src="./API.raw.js"></script>
@@ -63,9 +54,10 @@ async function loadVerify(){
     document.getElementById("verifyMeta").textContent = "N/A";
   }
 }
-  window.onload = () => ghostReady();
-</script>
 
+// ghostReady (ECHT)
+window.onload = () => ghostReady();
+</script>
 
 </head>
 
@@ -96,14 +88,8 @@ Visualizer
 
 <script>
 // ------------------------------------------------------
-// THREE.js + OrbitHeatmap
+// THREE.js + OrbitHeatmap + DS9‑Station
 // ------------------------------------------------------
-
-// ghostReady wird hier simuliert, damit dein Code funktioniert
-setTimeout(() => {
-    const event = new Event("ghostReady");
-    window.dispatchEvent(event);
-}, 300);
 
 window.addEventListener("ghostReady", () => {
 
@@ -121,5 +107,41 @@ window.addEventListener("ghostReady", () => {
 
     camera.position.z = 6;
 
-    // API Orbit‑Heatmap laden (Dummy, damit es nicht crasht)
-    if (typeof API_OrbitHeatmap ===
+    // OrbitHeatmap
+    const animatePlanets = API_OrbitHeatmap(scene);
+
+    // DS9‑Station (aus D/tmp.station)
+    if (typeof DS9_Station === "function") {
+        const animateStation = DS9_Station(scene);
+
+        function animate(){
+            requestAnimationFrame(animate);
+            animatePlanets();
+            animateStation();
+            renderer.render(scene, camera);
+        }
+        animate();
+    } else {
+        function animate(){
+            requestAnimationFrame(animate);
+            animatePlanets();
+            renderer.render(scene, camera);
+        }
+        animate();
+    }
+
+    // API‑Check
+    const check = API_CheckModules([
+        "ghostReady",
+        "API_OrbitHeatmap",
+        "API_raw",
+        "API_fusionMatrix",
+        "API_metaDrift"
+    ]);
+
+    console.log("API‑Check:", check);
+});
+</script>
+
+</body>
+</html>

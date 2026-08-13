@@ -17,22 +17,39 @@
   .err { color:#ff4444; }
 </style>
 
-<!-- THREE.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-<!-- API‑Module -->
-<script src="./API.system.js"></script>
-<script src="./API.ghost.js"></script>
-<script src="./API.raw.js"></script>
-<script src="./API.techEngine.js"></script>
-<script src="./API.fusionMatrix.js"></script>
-<script src="./API.metaDrift.js"></script>
-<script src="./API.visualizer.js"></script>
 <script type="module">
-import { OrbitStart, OrbitCompute } from "../O/tmp.orbit.js";
-import { DS9_Station, DS9_WormholeGate } from "../D/tmp.station.js";
-import { S_SystemStart, S_SystemCompute } from "../S/s.system.js";
+import { OrbitStart } from "../O/tmp.orbit.js";
+import { DS9_Station } from "../D/tmp.station.js";
+
+window.addEventListener("ghostReady", () => {
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+
+    const renderer = new THREE.WebGLRenderer({ antialias:true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    camera.position.z = 6;
+
+    // Orbit + DS9
+    const animateAll = OrbitStart(scene);
+
+    function animate(){
+        requestAnimationFrame(animate);
+        animateAll();
+        renderer.render(scene, camera);
+    }
+
+    animate();
+});
 </script>
+
 
 <script>
 // ------------------------------------------------------

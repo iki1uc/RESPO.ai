@@ -1,34 +1,44 @@
 class AxiomEngine {
     constructor(matrix) {
         this.matrix = matrix;      // 6×6 Übergänge
-        this.tmp = [];             // Obfuskation Layer
-        this.alpha = this.applyAlpha.bind(this);
-        this.beta  = this.applyBeta.bind(this);
-        this.gamma = this.applyGamma.bind(this);
+        this.tmp = [];             // RAW tmp Layer
     }
 
-    // 1. Alpha – Absicht
-    applyAlpha(state, input) {
-        return (state === "ai" || input.includes("→ai")) ? 1 : 0;
+    // Höhe – Impulsoperator (getarnt)
+    H(state, input) {
+        const v = (state.length + input.length) % 3;
+        const i = input.includes("ai") ? 1 : 0;
+        const r = (v ^ i);
+        this.tmp.push(r);
+        return r;
     }
 
-    // 2. Beta – Relevanz
-    applyBeta(state, input) {
-        return input.includes("root") ? 1 : 0;
+    // Breite – Vektoroperator (getarnt)
+    B(state, input) {
+        const v = (state.length * input.length) % 5;
+        const i = input.includes("root") ? 1 : 0;
+        const r = (v ^ i);
+        this.tmp.push(r);
+        return r;
     }
 
-    // 3. Gamma – Lösung
-    applyGamma(state, input) {
-        return input.includes("tight") ? 1 : 0;
+    // Tiefe – Gradientoperator (getarnt)
+    T(state, input) {
+        const v = (state.length - input.length + 7) % 7;
+        const i = input.includes("tight") ? 1 : 0;
+        const r = (v ^ i);
+        this.tmp.push(r);
+        return r;
     }
 
-    // Cube-Mind Entscheidung
+    // RAW CubeMind Entscheidung
     decide(state, input) {
-        const a = this.alpha(state, input);
-        const b = this.beta(state, input);
-        const g = this.gamma(state, input);
+        const h = this.H(state, input);   // Höhe
+        const b = this.B(state, input);   // Breite
+        const t = this.T(state, input);   // Tiefe
 
-        const score = (a * 3) + (b * 5) + (g * 7); // 360° Harmonie
+        // Physikalische Tarnung
+        const score = (h * 3) + (b * 5) + (t * 7);
 
         return score;
     }

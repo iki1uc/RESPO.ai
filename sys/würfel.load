@@ -98,3 +98,27 @@ export function WuerfelLoad() {
         NC_Status: nc.status
     };
 }
+// RESPO‑Anker – verbindet S / H / B / T / t
+
+import { AxiomEngine } from "../H/AxiomEngine.js";
+import { RESPO_MATRIX } from "../B/RESPO_MATRIX.js";
+import { AxiomTriangle } from "../T/axiom.triangle.js";
+import { continuum } from "../T/würfel.continuum.js";
+
+export function RESPO_SUN(input){
+
+    const engine = new AxiomEngine(RESPO_MATRIX);
+    const score = engine.decide(input, "ai-root-tight");
+
+    const tri = new AxiomTriangle();
+    const triScore = tri.triangle(score);
+
+    const cont = continuum(triScore);
+
+    return {
+        score,
+        triScore,
+        cont,
+        tmp: engine.tmp
+    };
+}

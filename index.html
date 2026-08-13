@@ -14,3 +14,16 @@ window.location.href = "./sys/index.html";
   <p>NC‑Router aktiv… Weiterleitung zum Orbit‑Zentrum…</p>
 </body>
 </html>
+<script>
+const route = {
+    H: "./H/AxiomEngine.js",
+    B: "./B/cubemind.js",
+    T: "./T/axiom.triangle.js",
+    SYS: "./sys/index.html"
+};
+
+// NC‑Routing (vereinfacht)
+const NC = "SYS"; // später dynamisch
+
+window.location.href = route[NC];
+</script>

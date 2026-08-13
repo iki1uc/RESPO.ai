@@ -20,9 +20,10 @@
 <script type="module">
 
 /* -----------------------------------------
-   1. VEC / ALLXALL empfangen
+   1. VEC + AXIOM empfangen
 ------------------------------------------ */
-const VEC = JSON.parse(localStorage.getItem("ALLXALL_LIGHT")) || null;
+const VEC   = JSON.parse(localStorage.getItem("ALLXALL_LIGHT")) || null;
+const AXIOM = JSON.parse(localStorage.getItem("AXIOM_VEC")) || null;
 
 /* -----------------------------------------
    2. STAGE laden
@@ -46,14 +47,13 @@ const NC = {
 };
 
 /* -----------------------------------------
-   4. STAGE‑Move erzeugen + VEC fusionieren
+   4. STAGE‑Move erzeugen
 ------------------------------------------ */
 function stageEnter(mode){
     const move = {
         XI: mode,
         IX: mode,
-        x4: mode,
-        VEC: VEC
+        x4: mode
     };
 
     localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
@@ -63,34 +63,7 @@ function stageEnter(mode){
 }
 
 /* -----------------------------------------
-   5. Startmodus
+   5. FUSION erzeugen (VEC + AXIOM + STAGE)
 ------------------------------------------ */
-let mode = "S";
-
-/* -----------------------------------------
-   6. STAGE laden
------------------------------------------- */
-loadStage();
-
-/* -----------------------------------------
-   7. Start → Universum
------------------------------------------- */
-function go(){
-    const move = stageEnter(mode);
-    console.log("STAGE‑MOVE:", move);
-
-    window.location.href = NC[mode];
-}
-
-</script>
-
-</head>
-
-<body>
-
-<div id="stagePanel">Lade STAGE…</div>
-
-<button onclick="go()">Starten → Universum</button>
-
-</body>
-</html>
+function fusion(){
+    const STAGE = JSON.parse

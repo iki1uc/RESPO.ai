@@ -1,3 +1,10 @@
+H = Impuls
+B = Vektor
+T = Gradient
+for (let i = 0; i < 9; i++)
+for (let j = 0; j < 9; j++)
+for (let k = 0; k < 7; k++)
+
 class AxiomEngine {
     constructor(matrix) {
         this.matrix = matrix;      // 6×6 Übergänge

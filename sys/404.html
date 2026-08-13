@@ -1,1 +1,42 @@
+<div class="block">
+<h2>ALLXALL · Zeuge</h2>
+
+<div id="ax-list"></div>
+
+<script>
+// 6 Achsen
+const AX = ["S","O","D","T","M","H"];
+
+// Buchung
+function axBook(ax){
+    const vec = {
+        XI: ax,
+        IX: ax,
+        x4: ax
+    };
+    localStorage.setItem("AXIOM_VEC", JSON.stringify(vec));
+    document.getElementById("machine-output").innerText =
+        "Maschinen‑Sprache: AXIOM → " + ax;
+}
+
+// Storno
+function axCancel(){
+    localStorage.removeItem("AXIOM_VEC");
+    document.getElementById("machine-output").innerText =
+        "Maschinen‑Sprache: AXIOM → STORNO";
+}
+
+// Liste erzeugen
+AX.forEach(ax => {
+    const div = document.createElement("div");
+    div.className = "opt";
+    div.innerHTML = `
+        <b>${ax}</b><br>
+        <button onclick="axBook('${ax}')">buchen</button>
+        <button onclick="axCancel()">stornieren</button>
+    `;
+    document.getElementById("ax-list").appendChild(div);
+});
+</script>
+</div>
 

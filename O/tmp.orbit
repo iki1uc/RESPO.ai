@@ -1,1 +1,83 @@
+// =======================================
+// O/tmp.orbit · Deep Space Nine Orbit Layer
+// =======================================
+
+// Sonne (sys/)
+import { ghostReady } from "../sys/API.ghost.js";
+import { API_OrbitHeatmap } from "../sys/API.visualizer.js";
+import { API_CheckModules } from "../sys/API.system.js";
+
+// Merkur (H/)
+import { AxiomEngine } from "../H/AxiomEngine.js";
+import { tmpRotate } from "../H/tmp.rotation.js";
+
+// Venus (B/)
+import { RESPO_MATRIX } from "../B/RESPO_MATRIX.js";
+import { WuerfelWelt } from "../sys/würfel.welt.js";
+
+// Erde (T/)
+import { AxiomTriangle } from "../T/axiom.triangle.js";
+import { continuum } from "../T/würfel.continuum.js";
+import { allxall } from "../T/würfel.allxall.js";
+
+// Mond (t/)
+import { sysRotate } from "../sys/tmp.rotation.js";
+
+// =======================================
+// DEEP SPACE NINE – Wurmloch Gate
+// =======================================
+
+export function DS9_WormholeGate(score){
+
+    const open = (score % 7) > 3;
+    const stability = (Math.sin(score) + 1) * 50;
+
+    return {
+        open,
+        stability,
+        gatePower: score * stability
+    };
+}
+
+// =======================================
+// DEEP SPACE NINE – Orbit Station
+// =======================================
+
+export function DS9_StationOrbit(scene){
+
+    const geo = new THREE.TorusGeometry(1.8, 0.15, 16, 100);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xccccff, wireframe:true });
+    const station = new THREE.Mesh(geo, mat);
+
+    station.position.x = 6;
+    scene.add(station);
+
+    return function animateStation(){
+        station.rotation.y += 0.002;
+        station.rotation.x += 0.001;
+    };
+}
+
+// =======================================
+// ORBIT START – DS9 + Sonnensystem
+// =======================================
+
+export function OrbitStart(scene){
+
+    ghostReady();
+
+    const animatePlanets = API_OrbitHeatmap(scene);
+    const animateStation = DS9_StationOrbit(scene);
+
+    const check = API_CheckModules([
+        "ghostReady",
+        "API_OrbitHeatmap",
+        "API_raw",
+        "API_fusionMatrix",
+        "API_metaDrift"
+    ]);
+
+    console.log("Orbit · API‑Check:", check);
+
+    return function animateAll(){
 

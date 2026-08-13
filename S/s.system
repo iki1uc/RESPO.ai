@@ -117,3 +117,11 @@ export const S_legacy = {
     oldContinuum: continuum
 };
 
+import { DS9_StationCompute } from "../D/tmp.station.js";
+
+export function S_SystemCompute(input){
+    const orbit = OrbitCompute(input);
+    const station = DS9_StationCompute(orbit.score);
+
+    return { orbit, station };
+}

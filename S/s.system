@@ -1,1 +1,119 @@
+// =======================================
+// S / s.system · SONNENSYSTEM-ZENTRUM
+// =======================================
+
+// ☀ SONNE (sys/) – ghostReady
+import { ghostReady } from "../sys/API.ghost.js";
+
+// ☀ SONNE – OrbitHeatmap
+import { API_OrbitHeatmap } from "../sys/API.visualizer.js";
+
+// ☀ SONNE – API-Modul-Prüfung
+import { API_CheckModules } from "../sys/API.system.js";
+
+// 🜂 MERKUR (H/) – Engine + Rotation
+import { AxiomEngine } from "../H/AxiomEngine.js";
+import { tmpRotate } from "../H/tmp.rotation.js";
+
+// 🜁 VENUS (B/) – Matrix + Welt
+import { RESPO_MATRIX } from "../B/RESPO_MATRIX.js";
+import { WuerfelWelt } from "../sys/würfel.welt.js";
+
+// 🜃 ERDE (T/) – Triangle + Continuum + AllxAll
+import { AxiomTriangle } from "../T/axiom.triangle.js";
+import { continuum } from "../T/würfel.continuum.js";
+import { allxall } from "../T/würfel.allxall.js";
+
+// 🜄 MOND (t/) – Helper
+import { sysRotate } from "../sys/tmp.rotation.js";
+
+// =======================================
+// NC-ROUTER (dynamisch)
+// =======================================
+
+export function NC_Router(mode = "S") {
+
+    const routes = {
+        S: "../sys/index.html",
+        H: "../H/index.html",
+        B: "../B/index.html",
+        T: "../T/index.html",
+        t: "../t/index.html"
+    };
+
+    return routes[mode] || routes["S"];
+}
+
+// =======================================
+// RESPO-ANKER (Sonne verbindet alle Planeten)
+// =======================================
+
+export function RESPO_SUN(input){
+
+    // Engine
+    const engine = new AxiomEngine(RESPO_MATRIX);
+    const score = engine.decide(input, "ai-root-tight");
+
+    // Triangle
+    const tri = new AxiomTriangle();
+    const triScore = tri.triangle(score);
+
+    // Continuum
+    const cont = continuum(triScore);
+
+    // Welt
+    const welt = WuerfelWelt(score);
+
+    // Rotation
+    const rot = sysRotate(score);
+
+    // AllxAll
+    const ax = allxall(score, triScore, cont);
+
+    return {
+        score,
+        triScore,
+        cont,
+        welt,
+        rot,
+        ax,
+        tmp: engine.tmp
+    };
+}
+
+// =======================================
+// SONNENSYSTEM STARTEN
+// =======================================
+
+export function S_SystemStart(scene){
+
+    // ghostReady
+    ghostReady();
+
+    // OrbitHeatmap
+    const animatePlanets = API_OrbitHeatmap(scene);
+
+    // API-Check
+    const check = API_CheckModules([
+        "ghostReady",
+        "API_OrbitHeatmap",
+        "API_raw",
+        "API_fusionMatrix",
+        "API_metaDrift"
+    ]);
+
+    console.log("API‑Check:", check);
+
+    return animatePlanets;
+}
+
+// =======================================
+// LEGACY / TMP bleibt bestehen
+// =======================================
+
+export const S_legacy = {
+    oldEngine: AxiomEngine,
+    oldTriangle: AxiomTriangle,
+    oldContinuum: continuum
+};
 

@@ -2,15 +2,15 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>API · Orbit · Zentrum</title>
+<title>API · Universum · Korridor</title>
 
 <style>
   body { background:#000; color:#0f0; font-family:Consolas; margin:0; overflow:hidden; }
   #panel {
-    position:fixed; top:0; left:0; width:320px; height:100%;
+    position:fixed; top:0; left:0; width:340px; height:100%;
     background:#111; border-right:1px solid #333; padding:15px; overflow-y:auto;
   }
-  h1, h2 { color:#6cf; }
+  h1, h2 { color:#6cf; margin-top:0; }
   pre { background:#000; border:1px solid #333; padding:10px; }
 </style>
 
@@ -26,14 +26,63 @@
 <script src="./API.metaDrift.js"></script>
 <script src="./API.visualizer.js"></script>
 
-<!-- MODUL‑IMPORTS (NEU, KORREKT, FUNKTIONIERT) -->
+<!-- UNIVERSUM‑MODULE -->
 <script type="module">
 import { OrbitStart } from "../O/tmp.orbit.js";
 import { DS9_Station } from "../D/tmp.station.js";
 import { S_SystemCompute } from "../S/s.system.js";
+
+import { OPTA_Move } from "../S/vector.line.js";
+import {
+    measureFrameDrift,
+    measureStationDrift,
+    measureHeatmapSync,
+    measureNCStability
+} from "../D/OrbitStart.js";
 
 window.addEventListener("ghostReady", () => {
 
     // Szene
     const scene = new THREE.Scene();
 
+    // Kamera
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 6;
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias:true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Orbit + Heatmap + DS9
+    const animateAll = OrbitStart(scene);
+
+    // DS9 Station
+    let stationMesh = null;
+    if (typeof DS9_Station === "function") {
+        stationMesh = DS9_Station(scene);
+    }
+
+    // Planetensystem aus OrbitStart
+    let planetMeshes = animateAll.meshes || [];
+
+    // Render‑Loop
+    function animate(){
+        requestAnimationFrame(animate);
+
+        // Orbit + Station animieren
+        animateAll();
+
+        // Messwerte
+        const frame = measureFrameDrift();
+        const station = stationMesh ? measureStationDrift(stationMesh) : 0;
+        const heat = planetMeshes.length ? measureHeatmapSync(planetMeshes) : 0;
+        const nc = measureNCStability(OPTA.log || []);
+
+        // OPTA‑MOVE erzeugen (XI / IX / x4)
+        const move

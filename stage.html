@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>STAGE · RESPO.ai</title>
+
+<style>
+  body { background:#000; color:#0f0; font-family:Consolas; margin:0; padding:20px; }
+  h1 { color:#0f0; }
+  .box { margin-top:20px; background:#111; padding:20px; border:1px solid #333; }
+  button {
+    background:#222; color:#0f0; border:1px solid #333;
+    padding:10px 20px; margin-top:20px; cursor:pointer;
+  }
+</style>
+
+<script type="module">
+
+const VEC   = JSON.parse(localStorage.getItem("ALLXALL_LIGHT")) || null;
+const AXIOM = JSON.parse(localStorage.getItem("AXIOM_VEC")) || null;
+const MOVE  = JSON.parse(localStorage.getItem("STAGE_MOVE")) || null;
+const MODE  = localStorage.getItem("STAGE_MODE") || "NONE";
+
+function showFusion(){
+    const FUSION = JSON.parse(localStorage.getItem("FUSION_UNIVERSUM")) || null;
+    document.getElementById("fusionBox").innerHTML =
+        `<pre>${JSON.stringify(FUSION, null, 2)}</pre>`;
+}
+
+function goNext(){
+    const NC = {
+        S: "./sys/index.html",
+        O: "./O/index.html",
+        D: "./D/index.html",
+        T: "./T/index.html",
+        M: "./B/index.html",
+        H: "./H/index.html"
+    };
+    window.location.href = NC[MODE];
+}
+
+</script>
+</head>
+
+<body>
+
+<h1>STAGE · Eingang</h1>
+
+<div class="box">
+  <p><b>MODE:</b> ${localStorage.getItem("STAGE_MODE")}</p>
+  <p><b>MOVE:</b> ${localStorage.getItem("STAGE_MOVE")}</p>
+  <p><b>AXIOM:</b> ${localStorage.getItem("AXIOM_VEC")}</p>
+  <p><b>VEC:</b> ${localStorage.getItem("ALLXALL_LIGHT")}</p>
+</div>
+
+<button onclick="showFusion()">Fusion anzeigen</button>
+<button onclick="goNext()">Weiter zur Station</button>
+
+<div id="fusionBox" class="box"></div>
+
+</body>
+</html>

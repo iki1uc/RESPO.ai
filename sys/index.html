@@ -17,6 +17,14 @@
   .err { color:#ff4444; }
 </style>
 const animatePlanets = API_OrbitHeatmap(scene);
+const check = API_CheckModules([
+    "ghostReady",
+    "API_OrbitHeatmap",
+    "API_raw",
+    "API_fusionMatrix",
+    "API_metaDrift"
+]);
+console.log("API‑Check:", check);
 
 <!-- THREE.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

@@ -5,8 +5,15 @@
 <title>RESPO.ai · NC‑Router</title>
 
 <script type="module">
-// NC‑Router (Universum‑Korridor)
 
+// 1. STAGE laden
+async function loadStage(){
+    const res = await fetch("./STAGE/index.html");
+    const html = await res.text();
+    document.getElementById("stagePanel").innerHTML = html;
+}
+
+// 2. NC‑Router
 const NC = {
     S: "./sys/index.html",
     H: "./H/index.html",
@@ -15,16 +22,43 @@ const NC = {
     t: "./t/index.html"
 };
 
-// Startmodus (Sonne)
+// 3. STAGE‑Move erzeugen
+function stageEnter(mode){
+    const move = {
+        XI: { in: mode },
+        IX: { out: mode },
+        x4: { move: mode }
+    };
+
+    // Move global speichern
+    localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
+    localStorage.setItem("STAGE_MODE", mode);
+
+    return move;
+}
+
+// 4. Startmodus
 let mode = "S";
 
-// Weiterleitung
-window.location.href = NC[mode];
+// 5. STAGE laden und NICHT sofort weiterleiten
+loadStage();
+
+function go(){
+    const move = stageEnter(mode);
+    console.log("STAGE‑MOVE:", move);
+
+    window.location.href = NC[mode];
+}
+
 </script>
 
 </head>
 
 <body style="background:#000; color:#0f0; font-family:Consolas;">
-  <p>NC‑Router aktiv… Weiterleitung zum Orbit‑Zentrum…</p>
+
+<div id="stagePanel">Lade STAGE…</div>
+
+<button onclick="go()">Starten → Universum</button>
+
 </body>
 </html>

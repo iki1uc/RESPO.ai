@@ -1,90 +1,22 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<title>RESPO.ai · NC‑Router</title>
-
-<style>
-  body { background:#000; color:#0f0; font-family:Consolas; margin:0; }
-  #stagePanel {
-    padding:20px;
-    background:#111;
-    border-bottom:1px solid #333;
-  }
-  button {
-    background:#222; color:#0f0; border:1px solid #333;
-    padding:10px 20px; margin-top:10px; cursor:pointer;
-  }
-</style>
-
-<script type="module">
-
-/* -----------------------------------------
-   1. VEC + AXIOM empfangen
------------------------------------------- */
-const VEC   = JSON.parse(localStorage.getItem("ALLXALL_LIGHT")) || null;
-const AXIOM = JSON.parse(localStorage.getItem("AXIOM_VEC")) || null;
-
-/* -----------------------------------------
-   2. STAGE laden
------------------------------------------- */
 async function loadStage(){
-    const res = await fetch("./STAGE/index.html");
-    const html = await res.text();
-    document.getElementById("stagePanel").innerHTML = html;
+    try {
+        const res = await fetch("./stage.html");
+
+        if (!res.ok) {
+            // Datei fehlt → 404 laden
+            const err = await fetch("./404.html");
+            const errHtml = await err.text();
+            document.getElementById("stagePanel").innerHTML = errHtml;
+            return;
+        }
+
+        const html = await res.text();
+        document.getElementById("stagePanel").innerHTML = html;
+
+    } catch (e) {
+        // Fehler → 404 laden
+        const err = await fetch("./404.html");
+        const errHtml = await err.text();
+        document.getElementById("stagePanel").innerHTML = errHtml;
+    }
 }
-
-/* -----------------------------------------
-   3. NC‑Router
------------------------------------------- */
-const NC = {
-    S: "./sys/index.html",
-    O: "./O/index.html",
-    D: "./D/index.html",
-    T: "./T/index.html",
-    M: "./B/index.html",
-    H: "./H/index.html"
-};
-
-/* -----------------------------------------
-   4. STAGE‑Move erzeugen
------------------------------------------- */
-function stageEnter(mode){
-    const move = {
-        XI: mode,
-        IX: mode,
-        x4: mode
-    };
-
-    localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
-    localStorage.setItem("STAGE_MODE", mode);
-
-    return move;
-}
-
-/* -----------------------------------------
-   5. FUSION erzeugen (VEC + AXIOM + STAGE)
------------------------------------------- */
-function fusion(){
-    const STAGE = JSON.parse(localStorage.getItem("STAGE_MOVE")) || null;
-
-    const FUSION = {
-        TEAM: "Team² Work³",
-        VEC,
-        AXIOM,
-        STAGE,
-        MODE: localStorage.getItem("STAGE_MODE"),
-        TIME: Date.now()
-    };
-
-    localStorage.setItem("FUSION_UNIVERSUM", JSON.stringify(FUSION));
-    return FUSION;
-}
-
-</script>
-</head>
-
-<body>
-<div id="stagePanel"></div>
-</body>
-</html>

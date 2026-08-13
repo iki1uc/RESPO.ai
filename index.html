@@ -4,30 +4,9 @@
 <meta charset="UTF-8">
 <title>RESPO.ai · NC‑Router</title>
 
-<script>
-// NC‑Router: Root → System
-window.location.href = "./sys/index.html";
-</script>
+<script type="module">
+// NC‑Router (Universum‑Korridor)
 
-</head>
-<body style="background:#000; color:#0f0; font-family:Consolas;">
-  <p>NC‑Router aktiv… Weiterleitung zum Orbit‑Zentrum…</p>
-</body>
-</html>
-<script>
-const route = {
-    H: "./H/AxiomEngine.js",
-    B: "./B/cubemind.js",
-    T: "./T/axiom.triangle.js",
-    SYS: "./sys/index.html"
-};
-
-// NC‑Routing (vereinfacht)
-const NC = "SYS"; // später dynamisch
-
-window.location.href = route[NC];
-
-1
 const NC = {
     S: "./sys/index.html",
     H: "./H/index.html",
@@ -36,18 +15,16 @@ const NC = {
     t: "./t/index.html"
 };
 
-// Dynamische Entscheidung (später API‑gesteuert)
-let mode = "S"; // Sonne = sys/
-function NC_Move(mode){
-    return OPTA.stageEnter(mode);
-}
+// Startmodus (Sonne)
+let mode = "S";
 
-let move = NC_Move("S");
-console.log("OPTA.VECTOR:", move);
-
+// Weiterleitung
 window.location.href = NC[mode];
-
-window.location.href = NC[mode];
-
-
 </script>
+
+</head>
+
+<body style="background:#000; color:#0f0; font-family:Consolas;">
+  <p>NC‑Router aktiv… Weiterleitung zum Orbit‑Zentrum…</p>
+</body>
+</html>

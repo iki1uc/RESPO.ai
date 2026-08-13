@@ -20,7 +20,12 @@
 <script type="module">
 
 /* -----------------------------------------
-   1. STAGE laden (sichtbar, nicht sofort weg)
+   1. VEC / ALLXALL empfangen
+------------------------------------------ */
+const VEC = JSON.parse(localStorage.getItem("ALLXALL_LIGHT")) || null;
+
+/* -----------------------------------------
+   2. STAGE laden
 ------------------------------------------ */
 async function loadStage(){
     const res = await fetch("./STAGE/index.html");
@@ -29,7 +34,7 @@ async function loadStage(){
 }
 
 /* -----------------------------------------
-   2. NC‑Router (Ziel‑Routen)
+   3. NC‑Router
 ------------------------------------------ */
 const NC = {
     S: "./sys/index.html",
@@ -40,4 +45,52 @@ const NC = {
     H: "./H/index.html"
 };
 
-/* --------------------------------
+/* -----------------------------------------
+   4. STAGE‑Move erzeugen + VEC fusionieren
+------------------------------------------ */
+function stageEnter(mode){
+    const move = {
+        XI: mode,
+        IX: mode,
+        x4: mode,
+        VEC: VEC
+    };
+
+    localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
+    localStorage.setItem("STAGE_MODE", mode);
+
+    return move;
+}
+
+/* -----------------------------------------
+   5. Startmodus
+------------------------------------------ */
+let mode = "S";
+
+/* -----------------------------------------
+   6. STAGE laden
+------------------------------------------ */
+loadStage();
+
+/* -----------------------------------------
+   7. Start → Universum
+------------------------------------------ */
+function go(){
+    const move = stageEnter(mode);
+    console.log("STAGE‑MOVE:", move);
+
+    window.location.href = NC[mode];
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div id="stagePanel">Lade STAGE…</div>
+
+<button onclick="go()">Starten → Universum</button>
+
+</body>
+</html>

@@ -26,4 +26,20 @@ const route = {
 const NC = "SYS"; // später dynamisch
 
 window.location.href = route[NC];
+
+1
+const NC = {
+    S: "./sys/index.html",
+    H: "./H/index.html",
+    B: "./B/index.html",
+    T: "./T/index.html",
+    t: "./t/index.html"
+};
+
+// Dynamische Entscheidung (später API‑gesteuert)
+let mode = "S"; // Sonne = sys/
+
+window.location.href = NC[mode];
+
+
 </script>

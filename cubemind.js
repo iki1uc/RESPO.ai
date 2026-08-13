@@ -15,6 +15,23 @@ const RESPO_MATRIX = [
 // ===============================
 // Axiom-Engine (Alpha, Beta, Gamma)
 // ===============================
+import { axiomAlpha } from "./axiom.alpha.js";
+import { axiomBeta }  from "./axiom.beta.js";
+import { axiomGamma } from "./axiom.gamma.js";
+class AxiomEngine {
+    constructor(matrix) {
+        this.matrix = matrix;
+        this.tmp = [];
+    }
+
+    decide(state, input) {
+        const a = axiomAlpha(state, input);
+        const b = axiomBeta(state, input);
+        const g = axiomGamma(state, input);
+
+        return (a * 3) + (b * 5) + (g * 7);
+    }
+}
 
 class AxiomEngine {
     constructor(matrix) {

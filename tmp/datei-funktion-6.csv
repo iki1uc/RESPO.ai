@@ -1,7 +1,0 @@
-﻿Datei,Funktion,Status
-ai.js,RAW‑AxiomEngine (H/B/T),MUSS geändert werden
-cubemind.js,RAW‑Decision‑Pipeline,MUSS geändert werden
-axiom.alpha.js,Höhe‑Operator,MUSS geändert werden
-axiom.beta.js,Breite‑Operator,MUSS geändert werden
-axiom.gamma.js,Tiefen‑Operator,MUSS geändert werden
-axiom.triangle.js,EVO‑Dreieck,MUSS aktiv bleiben

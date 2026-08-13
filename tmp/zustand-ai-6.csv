@@ -1,7 +1,0 @@
-﻿Zustand,ai,echo,tight,break,nok,root
-ai,ai→ai,ai→echo,ai→tight,ai→break,ai→nok,ai→root
-echo,echo→ai,echo→echo,echo→tight,echo→break,echo→nok,echo→root
-tight,tight→ai,tight→echo,tight→tight,tight→break,tight→nok,tight→root
-break,break→ai,break→echo,break→tight,break→break,break→nok,break→root
-nok,nok→ai,nok→echo,nok→tight,nok→break,nok→nok,nok→root
-root,root→ai,root→echo,root→tight,root→break,root→nok,root→root

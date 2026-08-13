@@ -1,9 +1,0 @@
-﻿Grad,EVO,Achse,Pointer,Beweis
-0°,Boden,Y,Ground‑Pointer,Pfad‑Start
-45°,Boden,Z,Ground‑Pointer,Ordner‑Check
-90°,Luft,X,Air‑Pointer,Struktur‑Höhe
-120°,Luft,X/T,Air‑Pointer,Layer‑Tiefe
-180°,Orbit,O,Orbit‑Pointer,Ursprung
-240°,Orbit,H,Orbit‑Pointer,Kern
-300°,Orbit,O/H,Orbit‑Pointer,Umlauf
-360°,Orbit,O/H,Orbit‑Pointer,Vollkreis‑Beweis

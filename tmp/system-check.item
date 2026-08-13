@@ -1,8 +1,0 @@
-const respoOK =
-  text.includes("RESPO.NAME = RESPO.iki1uc") &&
-  text.includes("RESPO.STATION = LAGE");
-
-if (!respoOK) {
-  window.location.href = "./error.root.html?path=respo";
-  return;
-}

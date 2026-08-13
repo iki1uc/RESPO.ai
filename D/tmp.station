@@ -1,1 +1,64 @@
+// =======================================
+// D/tmp.station · Deep Space Nine Station
+// =======================================
+
+// Station-Objekt (DS9)
+export function DS9_Station(scene){
+
+    // Hauptkörper der Station (Torus)
+    const geo = new THREE.TorusGeometry(2.2, 0.25, 16, 100);
+    const mat = new THREE.MeshBasicMaterial({
+        color: 0xddddff,
+        wireframe: true
+    });
+
+    const station = new THREE.Mesh(geo, mat);
+
+    // Position der Station im Orbit
+    station.position.x = 8;
+    station.position.y = 0;
+    station.position.z = 0;
+
+    scene.add(station);
+
+    // Lineare Orbit-Bewegung
+    return function animateStationLinear(){
+        const t = Date.now() * 0.0003;
+
+        // leichte Rotation
+        station.rotation.y += 0.0015;
+        station.rotation.x += 0.0007;
+
+        // lineare Drift (Deep Space Nine Stil)
+        station.position.x = 8 + Math.sin(t) * 0.5;
+        station.position.z = Math.cos(t) * 0.5;
+    };
+}
+
+// =======================================
+// DS9 – Linearer Orbit + Wurmloch-Kopplung
+// =======================================
+
+import { DS9_WormholeGate } from "../O/tmp.orbit.js";
+
+export function DS9_StationCompute(score){
+
+    const gate = DS9_WormholeGate(score);
+
+    return {
+        stationPower: score * 2.7,
+        stationDrift: Math.sin(score * 0.3) * 10,
+        wormhole: gate,
+        status: gate.open ? "Wurmloch aktiv" : "Wurmloch geschlossen"
+    };
+}
+
+// =======================================
+// DS9 – Legacy bleibt bestehen
+// =======================================
+
+export const DS9_StationLegacy = {
+    version: "tmp.station-legacy",
+    note: "Alte DS9-Station bleibt erhalten"
+};
 

@@ -7,9 +7,10 @@
 <script type="module">
 
 /* -----------------------------
-   1. STAGE + AXIOM empfangen
+   1. AXIOM + VEC empfangen
 ------------------------------ */
 const AXIOM = JSON.parse(localStorage.getItem("AXIOM_VEC")) || null;
+const VEC = JSON.parse(localStorage.getItem("ALLXALL_LIGHT")) || null;
 
 /* -----------------------------
    2. STAGE‑Move erzeugen
@@ -19,7 +20,8 @@ function stageEnter(mode){
         XI: mode,
         IX: mode,
         x4: mode,
-        AXIOM: AXIOM
+        AXIOM,
+        VEC
     };
 
     localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
@@ -46,10 +48,15 @@ const NC = {
 let mode = "S";
 
 /* -----------------------------
-   5. STAGE‑Move erzeugen
+   5. Start → Universum
 ------------------------------ */
-stageEnter(mode);
+function go(){
+    const move = stageEnter(mode);
+    console.log("STAGE‑MOVE:", move);
+    window.location.href = NC[mode];
+}
 
-/* -----------------------------
-   6. Weiterleitung
-----------------
+</script>
+</head>
+
+<body style="background:#000; color:#0f0; font-family:Consolas;">

@@ -4,61 +4,40 @@
 <meta charset="UTF-8">
 <title>RESPO.ai · NC‑Router</title>
 
+<style>
+  body { background:#000; color:#0f0; font-family:Consolas; margin:0; }
+  #stagePanel {
+    padding:20px;
+    background:#111;
+    border-bottom:1px solid #333;
+  }
+  button {
+    background:#222; color:#0f0; border:1px solid #333;
+    padding:10px 20px; margin-top:10px; cursor:pointer;
+  }
+</style>
+
 <script type="module">
 
-// 1. STAGE laden
+/* -----------------------------------------
+   1. STAGE laden (sichtbar, nicht sofort weg)
+------------------------------------------ */
 async function loadStage(){
     const res = await fetch("./STAGE/index.html");
     const html = await res.text();
     document.getElementById("stagePanel").innerHTML = html;
 }
 
-// 2. NC‑Router
+/* -----------------------------------------
+   2. NC‑Router (Ziel‑Routen)
+------------------------------------------ */
 const NC = {
     S: "./sys/index.html",
-    H: "./H/index.html",
-    B: "./B/index.html",
+    O: "./O/index.html",
+    D: "./D/index.html",
     T: "./T/index.html",
-    t: "./t/index.html"
+    M: "./B/index.html",
+    H: "./H/index.html"
 };
 
-// 3. STAGE‑Move erzeugen
-function stageEnter(mode){
-    const move = {
-        XI: { in: mode },
-        IX: { out: mode },
-        x4: { move: mode }
-    };
-
-    // Move global speichern
-    localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
-    localStorage.setItem("STAGE_MODE", mode);
-
-    return move;
-}
-
-// 4. Startmodus
-let mode = "S";
-
-// 5. STAGE laden und NICHT sofort weiterleiten
-loadStage();
-
-function go(){
-    const move = stageEnter(mode);
-    console.log("STAGE‑MOVE:", move);
-
-    window.location.href = NC[mode];
-}
-
-</script>
-
-</head>
-
-<body style="background:#000; color:#0f0; font-family:Consolas;">
-
-<div id="stagePanel">Lade STAGE…</div>
-
-<button onclick="go()">Starten → Universum</button>
-
-</body>
-</html>
+/* --------------------------------

@@ -1,110 +1,49 @@
-// ===============================
-// RESPO-MATRIX (6 reale Stationen)
-// ===============================
-
-const RESPO_MATRIX = [
-    { state: "ai",    transitions: ["ai→ai","ai→echo","ai→tight","ai→break","ai→nok","ai→root"] },
-    { state: "echo",  transitions: ["echo→ai","echo→echo","echo→tight","echo→break","echo→nok","echo→root"] },
-    { state: "tight", transitions: ["tight→ai","tight→echo","tight→tight","tight→break","tight→nok","tight→root"] },
-    { state: "break", transitions: ["break→ai","break→echo","break→tight","break→break","break→nok","break→root"] },
-    { state: "nok",   transitions: ["nok→ai","nok→echo","nok→tight","nok→break","nok→nok","nok→root"] },
-    { state: "root",  transitions: ["root→ai","root→echo","root→tight","root→break","root→nok","root→root"] }
-];
-
-
-// ===============================
-// Axiom-Engine (Alpha, Beta, Gamma)
-// ===============================
-import { axiomAlpha } from "./axiom.alpha.js";
-import { axiomBeta }  from "./axiom.beta.js";
-import { axiomGamma } from "./axiom.gamma.js";
-class AxiomEngine {
-    constructor(matrix) {
-        this.matrix = matrix;
-        this.tmp = [];
-    }
-
-    decide(state, input) {
-        const a = axiomAlpha(state, input);
-        const b = axiomBeta(state, input);
-        const g = axiomGamma(state, input);
-
-        return (a * 3) + (b * 5) + (g * 7);
-    }
-}
+// =======================================
+// RAW – Geo – Physik – Bewegung – Tarnung
+// =======================================
 
 class AxiomEngine {
     constructor(matrix) {
-        this.matrix = matrix;
-        this.tmp = [];
+        this.matrix = matrix;      // 6×6 Übergänge
+        this.tmp = [];             // RAW tmp Layer
     }
 
-    // Alpha – Absicht
-    applyAlpha(state, input) {
-        return (state === "ai" || input.includes("→ai")) ? 1 : 0;
+    // Höhe – Impulsoperator (getarnt)
+    H(state, input) {
+        const v = (state.length + input.length) % 3;
+        const i = input.includes("ai") ? 1 : 0;
+        const r = (v ^ i);
+        this.tmp.push(r);
+        return r;
     }
 
-    // Beta – Relevanz
-    applyBeta(state, input) {
-        return input.includes("root") ? 1 : 0;
+    // Breite – Vektoroperator (getarnt)
+    B(state, input) {
+        const v = (state.length * input.length) % 5;
+        const i = input.includes("root") ? 1 : 0;
+        const r = (v ^ i);
+        this.tmp.push(r);
+        return r;
     }
 
-    // Gamma – Lösung
-    applyGamma(state, input) {
-        return input.includes("tight") ? 1 : 0;
+    // Tiefe – Gradientoperator (getarnt)
+    T(state, input) {
+        const v = (state.length - input.length + 7) % 7;
+        const i = input.includes("tight") ? 1 : 0;
+        const r = (v ^ i);
+        this.tmp.push(r);
+        return r;
     }
 
-    // Harmonie-Entscheidung
+    // RAW CubeMind Entscheidung
     decide(state, input) {
-        const a = this.applyAlpha(state, input);
-        const b = this.applyBeta(state, input);
-        const g = this.applyGamma(state, input);
+        const h = this.H(state, input);   // Höhe
+        const b = this.B(state, input);   // Breite
+        const t = this.T(state, input);   // Tiefe
 
-        return (a * 3) + (b * 5) + (g * 7); // 360° Harmonie
+        // Physikalische Tarnung
+        const score = (h * 3) + (b * 5) + (t * 7);
+
+        return score;
     }
 }
-
-
-// ===============================
-// Cube-Mind (81 → 756 Schleife)
-// ===============================
-
-class CubeMind {
-    constructor(engine) {
-        this.engine = engine;
-    }
-
-    runCubeMind() {
-        let result = 0;
-
-        // 81-Schleife
-        for (let i = 0; i < 9; i++) {
-            for (let j = 0; j < 9; j++) {
-
-                const stateObj = this.engine.matrix[i % 6];
-                const state = stateObj.state;
-                const input = stateObj.transitions[j % 6];
-
-                const tmpScore = this.engine.decide(state, input);
-                this.engine.tmp.push(tmpScore);
-            }
-        }
-
-        // 756-Schleife
-        for (let k = 0; k < 7; k++) {
-            result += this.engine.tmp[(k * 108) % this.engine.tmp.length];
-        }
-
-        return result;
-    }
-}
-
-
-// ===============================
-// Cube-Mind starten
-// ===============================
-
-const engine = new AxiomEngine(RESPO_MATRIX);
-const cube = new CubeMind(engine);
-
-console.log("CubeMind Score:", cube.runCubeMind());

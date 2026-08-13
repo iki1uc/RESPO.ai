@@ -38,6 +38,14 @@ const NC = {
 
 // Dynamische Entscheidung (später API‑gesteuert)
 let mode = "S"; // Sonne = sys/
+function NC_Move(mode){
+    return OPTA.stageEnter(mode);
+}
+
+let move = NC_Move("S");
+console.log("OPTA.VECTOR:", move);
+
+window.location.href = NC[mode];
 
 window.location.href = NC[mode];
 

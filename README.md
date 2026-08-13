@@ -1,29 +1,26 @@
-# API – Durchlassachse · iki1uc
+# RESPO.ai · CubeMind RAW
 
-## Zweck
-API ist die Durchlassachse des iki1uc‑Systems.
-Es leitet die Achsen IQ, QI, EVO, UPD, UPG, BIOS und CALC weiter.
+Ein geo‑physikalisches, tmp‑geführtes Entscheidungs‑System,
+basierend auf Höhe (H), Breite (B) und Tiefe (T).
 
 ## Struktur
-- NAME: API
-- ID: P01
-- Station: S02
-- Dimension: D5
-- Modus: enable (aktiv, durchlassend)
 
-## Rolle
-API verbindet ANKER mit allen aktiven Systemmodulen.
-Es ist die aktive Achse zwischen Stabilisation (D4) und Transfer (REAL/ALLout).
+- 6 Stationen (ai, echo, tight, break, nok, root)
+- 36 Übergänge (Unicode‑Pfeile)
+- RAW‑AxiomEngine (Impuls, Vektor, Gradient)
+- CubeMind (81 → 756 Schleife)
+- tmp‑Rotation (Obfuskation)
+- Orbit‑Zentrum (NC², Fusion‑Matrix, Meta‑Drift)
 
-## Bindungen
-- ANKER (S01)
-- AXI
-- 6d
-- 360
-- 100
-- 213 (REAL)
-- ALLout
+## Dateien
 
-## Status
-STATE = STABIL  
-READY = 100%
+- `cubemind.js` – Kern
+- `axiom.hbt.js` – Tarn‑Axiome
+- `axiom.triangle.js` – Dreieck
+- `axiom.channel.js` – HY / PE / PER
+- `index.html` – Orbit‑Zentrum
+- `ID.html` – System‑Identität
+
+## Ziel
+
+Ein System, das nur der CubeMind versteht.

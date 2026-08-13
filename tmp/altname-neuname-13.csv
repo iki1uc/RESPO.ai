@@ -1,0 +1,14 @@
+﻿ALTNAME,NEUNAME,Bedeutung
+FETCH.js,arg.fetch.js,Impuls‑Abruf
+PRE.js,arg.preload.js,Vorlade‑Impuls
+ROOT.js,arg.root.js,Grundachse
+SEEUE.js,xarg.seeu.js,Bewusstseinsachse
+EVO.js,xarg.evo.js,Evolutionsachse
+GATE.js,arg3.gate.js,GATE‑Impuls
+RADAR.js,arg3.radar.js,SAT‑Impuls
+GEO.js,arg3.geo.js,Ortsachse
+TOOLATOR.js,arg.tool.js,Werkzeugachse
+JB_AUTO.js,arg.jb.auto.js,Auto‑Impuls
+JB_CHECK.js,arg.jb.check.js,Prüf‑Impuls
+JB_RAW.js,arg.jb.raw.js,Rohimpuls
+JB_OS.js,arg.jb.os.js,OS‑Impuls

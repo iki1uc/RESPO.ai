@@ -1,0 +1,4 @@
+﻿Verkehr,Achse,Gold‑Parameter,Messung,Nutzen
+Hin/Rück,Y/Z,goldenFlow,Verhältnis,Pfad/Ordner
+Luft,X,cylinderFlow,Höhe/Tiefe,Layer/Struktur
+Orbit,O/H,circleFlow,Umlauf,Ursprung/Kern

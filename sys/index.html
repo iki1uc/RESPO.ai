@@ -13,6 +13,23 @@
   h1, h2 { color:#6cf; margin-top:0; }
   pre { background:#000; border:1px solid #333; padding:10px; }
 </style>
+function StageReceiver(mode){
+    const move = OPTA_Move(
+        measureFrameDrift(),
+        measureStationDrift(stationMesh),
+        measureHeatmapSync(planetMeshes),
+        measureNCStability(OPTA.log)
+    );
+
+    console.log("StageReceiver:", mode, move);
+
+    NC.current = mode;
+    DS9_Gate.open(move.XI.in);
+    Score.update(move.x4);
+    Slide.toLayer(mode);
+
+    loadScene(mode);
+}
 
 <!-- THREE.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

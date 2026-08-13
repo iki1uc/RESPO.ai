@@ -66,4 +66,25 @@ function stageEnter(mode){
    5. FUSION erzeugen (VEC + AXIOM + STAGE)
 ------------------------------------------ */
 function fusion(){
-    const STAGE = JSON.parse
+    const STAGE = JSON.parse(localStorage.getItem("STAGE_MOVE")) || null;
+
+    const FUSION = {
+        TEAM: "Team² Work³",
+        VEC,
+        AXIOM,
+        STAGE,
+        MODE: localStorage.getItem("STAGE_MODE"),
+        TIME: Date.now()
+    };
+
+    localStorage.setItem("FUSION_UNIVERSUM", JSON.stringify(FUSION));
+    return FUSION;
+}
+
+</script>
+</head>
+
+<body>
+<div id="stagePanel"></div>
+</body>
+</html>

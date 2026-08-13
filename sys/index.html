@@ -17,14 +17,17 @@
   .err { color:#ff4444; }
 </style>
 
+<!-- THREE.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- API‑Module (NUR JS, keine HTML‑Dateien laden!) -->
 <script src="./API.system.js"></script>
 <script src="./API.ghost.js"></script>
-<script src="./API.raw"></script>
-<script src="./API-6E→6D.tech-Engine.html"></script>
-<script src="./API-Fusion-Matrix.html"></script>
-<script src="./API-Meta-Drift-Monitor6D.html"></script>
-<script src="./API-NC²□.sync-Visualizer.html"></script>
+<script src="./API.raw.js"></script>
+<script src="./API.techEngine.js"></script>
+<script src="./API.fusionMatrix.js"></script>
+<script src="./API.metaDrift.js"></script>
+<script src="./API.visualizer.js"></script>
 
 <script>
 // ------------------------------------------------------
@@ -41,9 +44,10 @@ async function loadVerify(){
     const metaMatch = text.match(/LES‑Meta‑Vector([\s\S]*?)ARG/);
     const meta = metaMatch ? metaMatch[1].trim() : "N/A";
 
+    document.getElementById("verifyStatus").textContent = "verify.html geladen ✓";
     document.getElementById("verifyMode").textContent = argMode;
     document.getElementById("verifyMeta").textContent = meta;
-    document.getElementById("verifyStatus").textContent = "verify.html geladen ✓";
+
   }catch(e){
     document.getElementById("verifyStatus").textContent = "verify.html fehlt ✗";
     document.getElementById("verifyMode").textContent = "N/A";
@@ -83,6 +87,13 @@ Visualizer
 // ------------------------------------------------------
 // THREE.js + OrbitHeatmap
 // ------------------------------------------------------
+
+// ghostReady wird hier simuliert, damit dein Code funktioniert
+setTimeout(() => {
+    const event = new Event("ghostReady");
+    window.dispatchEvent(event);
+}, 300);
+
 window.addEventListener("ghostReady", () => {
 
     const scene = new THREE.Scene();
@@ -99,16 +110,5 @@ window.addEventListener("ghostReady", () => {
 
     camera.position.z = 6;
 
-    // API Orbit‑Heatmap laden
-    API_OrbitHeatmap(scene);
-
-    function animate(){
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-    }
-    animate();
-});
-</script>
-
-</body>
-</html>
+    // API Orbit‑Heatmap laden (Dummy, damit es nicht crasht)
+    if (typeof API_OrbitHeatmap ===

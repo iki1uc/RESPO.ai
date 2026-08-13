@@ -2,104 +2,48 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>API · Universum · Korridor</title>
+<title>RESPO.ai · NC‑Router</title>
 
-<style>
-  body { background:#000; color:#0f0; font-family:Consolas; margin:0; overflow:hidden; }
-  #panel {
-    position:fixed; top:0; left:0; width:340px; height:100%;
-    background:#111; border-right:1px solid #333; padding:15px; overflow-y:auto;
-  }
-  h1, h2 { color:#6cf; margin-top:0; }
-  pre { background:#000; border:1px solid #333; padding:10px; }
-</style>
-function StageReceiver(mode){
-    const move = OPTA_Move(
-        measureFrameDrift(),
-        measureStationDrift(stationMesh),
-        measureHeatmapSync(planetMeshes),
-        measureNCStability(OPTA.log)
-    );
+<script type="module">
 
-    console.log("StageReceiver:", mode, move);
+// 1. STAGE‑Move erzeugen
+function stageEnter(mode){
+    const move = {
+        XI: { in: mode },
+        IX: { out: mode },
+        x4: { move: mode }
+    };
 
-    NC.current = mode;
-    DS9_Gate.open(move.XI.in);
-    Score.update(move.x4);
-    Slide.toLayer(mode);
+    // Move global speichern
+    localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
+    localStorage.setItem("STAGE_MODE", mode);
 
-    loadScene(mode);
+    return move;
 }
 
-<!-- THREE.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+// 2. NC‑Router
+const NC = {
+    S: "./sys/index.html",
+    H: "./H/index.html",
+    B: "./B/index.html",
+    T: "./T/index.html",
+    t: "./t/index.html"
+};
 
-<!-- API‑Module -->
-<script src="./API.system.js"></script>
-<script src="./API.ghost.js"></script>
-<script src="./API.raw.js"></script>
-<script src="./API.techEngine.js"></script>
-<script src="./API.fusionMatrix.js"></script>
-<script src="./API.metaDrift.js"></script>
-<script src="./API.visualizer.js"></script>
+// 3. Startmodus
+let mode = "S";
 
-<!-- UNIVERSUM‑MODULE -->
-<script type="module">
-import { OrbitStart } from "../O/tmp.orbit.js";
-import { DS9_Station } from "../D/tmp.station.js";
-import { S_SystemCompute } from "../S/s.system.js";
+// 4. STAGE‑Move erzeugen
+stageEnter(mode);
 
-import { OPTA_Move } from "../S/vector.line.js";
-import {
-    measureFrameDrift,
-    measureStationDrift,
-    measureHeatmapSync,
-    measureNCStability
-} from "../D/OrbitStart.js";
+// 5. Weiterleitung
+window.location.href = NC[mode];
 
-window.addEventListener("ghostReady", () => {
+</script>
 
-    // Szene
-    const scene = new THREE.Scene();
+</head>
 
-    // Kamera
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    camera.position.z = 6;
-
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias:true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    // Orbit + Heatmap + DS9
-    const animateAll = OrbitStart(scene);
-
-    // DS9 Station
-    let stationMesh = null;
-    if (typeof DS9_Station === "function") {
-        stationMesh = DS9_Station(scene);
-    }
-
-    // Planetensystem aus OrbitStart
-    let planetMeshes = animateAll.meshes || [];
-
-    // Render‑Loop
-    function animate(){
-        requestAnimationFrame(animate);
-
-        // Orbit + Station animieren
-        animateAll();
-
-        // Messwerte
-        const frame = measureFrameDrift();
-        const station = stationMesh ? measureStationDrift(stationMesh) : 0;
-        const heat = planetMeshes.length ? measureHeatmapSync(planetMeshes) : 0;
-        const nc = measureNCStability(OPTA.log || []);
-
-        // OPTA‑MOVE erzeugen (XI / IX / x4)
-        const move
+<body style="background:#000; color:#0f0; font-family:Consolas;">
+  <p>NC‑Router aktiv… Weiterleitung zum Orbit‑Zentrum…</p>
+</body>
+</html>

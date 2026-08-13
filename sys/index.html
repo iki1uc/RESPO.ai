@@ -6,44 +6,50 @@
 
 <script type="module">
 
-// 1. STAGE‑Move erzeugen
+/* -----------------------------
+   1. STAGE + AXIOM empfangen
+------------------------------ */
+const AXIOM = JSON.parse(localStorage.getItem("AXIOM_VEC")) || null;
+
+/* -----------------------------
+   2. STAGE‑Move erzeugen
+------------------------------ */
 function stageEnter(mode){
     const move = {
-        XI: { in: mode },
-        IX: { out: mode },
-        x4: { move: mode }
+        XI: mode,
+        IX: mode,
+        x4: mode,
+        AXIOM: AXIOM
     };
 
-    // Move global speichern
     localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
     localStorage.setItem("STAGE_MODE", mode);
 
     return move;
 }
 
-// 2. NC‑Router
+/* -----------------------------
+   3. NC‑Router
+------------------------------ */
 const NC = {
     S: "./sys/index.html",
-    H: "./H/index.html",
-    B: "./B/index.html",
+    O: "./O/index.html",
+    D: "./D/index.html",
     T: "./T/index.html",
-    t: "./t/index.html"
+    M: "./B/index.html",
+    H: "./H/index.html"
 };
 
-// 3. Startmodus
+/* -----------------------------
+   4. Startmodus
+------------------------------ */
 let mode = "S";
 
-// 4. STAGE‑Move erzeugen
+/* -----------------------------
+   5. STAGE‑Move erzeugen
+------------------------------ */
 stageEnter(mode);
 
-// 5. Weiterleitung
-window.location.href = NC[mode];
-
-</script>
-
-</head>
-
-<body style="background:#000; color:#0f0; font-family:Consolas;">
-  <p>NC‑Router aktiv… Weiterleitung zum Orbit‑Zentrum…</p>
-</body>
-</html>
+/* -----------------------------
+   6. Weiterleitung
+----------------

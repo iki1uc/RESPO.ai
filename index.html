@@ -2,127 +2,2031 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>RESPO.ai · Sunnyboy ROOT</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>▣ RAM · ADMIN0 · HDF · RUN-21 · iki1uc</title>
 <style>
-  body {
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#03050a; --bg2:#0a0e1c; --bg3:#101528;
+    --fg:#c8d8e8; --dim:#5a7288; --dim2:#2a3644;
+    --ram:#ffcc44; --ram2:#ffe9b0;
+    --admin:#ff4d6d; --root:#ff0044;
+    --cyan:#5fc8ff; --gold:#ffcc44; --gold2:#ffe9b0;
+    --violet:#b388ff; --green:#8cf0d0; --pink:#ff88b0;
+    --red:#ff5a7a; --orange:#ffa040;
+    --hdf:#66ffcc;
+    --line:rgba(140,160,220,0.08);
+    --line2:rgba(140,160,220,0.04);
+    --mono:'Consolas','Courier New',monospace;
+    --serif:'Yu Mincho','Hiragino Mincho ProN',serif;
+  }
+  html,body{height:100%;overflow:hidden;}
+  body{
     background:#000;
-    color:#0f0;
-    font-family:Consolas;
-    margin:0;
-    padding:20px;
+    color:var(--fg);
+    font-family:var(--mono);
+    font-size:12px;
   }
-  h1 {
-    color:#0f0;
-    font-size:28px;
+
+  /* ═══ DESKTOP ═══ */
+  #desk{
+    width:100vw; height:100vh;
+    background:var(--bg);
+    display:flex; flex-direction:column;
+    position:relative;
+    overflow:hidden;
   }
-  .sunny {
-    background:#111;
-    padding:20px;
-    border:1px solid #333;
-    margin-top:20px;
+
+  /* ── TOP BAR ───────────────────────────── */
+  #topbar{
+    height:28px;
+    background:linear-gradient(180deg,#0a0e1e,#04060c);
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center;
+    padding:0 12px;
+    font-size:11px; letter-spacing:1px;
+    gap:10px;
+    flex-shrink:0;
   }
-  button {
-    background:#222;
-    color:#0f0;
-    border:1px solid #333;
-    padding:10px 20px;
-    margin-top:20px;
+  #topbar .logo{
+    color:var(--ram);
+    font-weight:bold;
+    letter-spacing:3px;
+    font-family:var(--serif);
+    display:flex; align-items:center; gap:6px;
+  }
+  #topbar .logo b{color:var(--admin);}
+  #topbar .logo .adm{
+    background:var(--admin);
+    color:#000;
+    font-size:9px;
+    padding:1px 6px;
+    border-radius:3px;
+    font-family:var(--mono);
+    letter-spacing:1px;
+    font-weight:bold;
+    animation:adminPulse 2s ease-in-out infinite;
+  }
+  @keyframes adminPulse{
+    0%,100%{box-shadow:0 0 6px rgba(255,77,109,0.6);}
+    50%{box-shadow:0 0 16px rgba(255,77,109,1);}
+  }
+  #topbar .sep{width:1px;height:14px;background:var(--line);}
+  #topbar .stat{
+    color:var(--dim);
+    font-size:10px;
+    display:flex; gap:12px;
+    margin-left:auto;
+    align-items:center;
+  }
+  #topbar .stat b{color:var(--green);font-weight:bold;}
+  #topbar .stat b.warn{color:var(--gold);}
+  #topbar .stat b.vio{color:var(--violet);}
+  #topbar .stat b.ram{color:var(--ram);}
+  #topbar .stat b.adm{color:var(--admin);}
+  #topbar .stat b.hdf{color:var(--hdf);}
+  #topbar #clock{color:var(--cyan);}
+
+  /* ── MAIN: 3 SPALTEN ───────────────────── */
+  #main{
+    flex:1;
+    display:grid;
+    grid-template-columns: 220px 1fr 280px;
+    overflow:hidden;
+    min-height:0;
+  }
+
+  /* ── LEFT: TREE ────────────────────────── */
+  #tree{
+    background:var(--bg2);
+    border-right:1px solid var(--line);
+    overflow-y:auto;
+    padding:6px 0;
+    font-size:11px;
+  }
+  #tree::-webkit-scrollbar{width:6px;}
+  #tree::-webkit-scrollbar-thumb{background:var(--line);}
+  .tree-hdr{
+    padding:6px 12px 4px;
+    color:var(--dim);
+    font-size:9px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-family:var(--serif);
+  }
+  .tree-item{
+    padding:4px 12px 4px 22px;
+    color:var(--fg);
     cursor:pointer;
+    display:flex; justify-content:space-between;
+    align-items:center;
+    font-size:11px;
+    border-left:2px solid transparent;
+    transition:.15s;
+    position:relative;
+  }
+  .tree-item::before{
+    content:'▸';
+    position:absolute; left:8px;
+    color:var(--dim2);
+    font-size:9px;
+  }
+  .tree-item:hover{
+    background:rgba(255,204,68,0.06);
+    border-left-color:var(--ram);
+  }
+  .tree-item.active{
+    background:rgba(255,204,68,0.1);
+    border-left-color:var(--ram);
+    color:var(--ram);
+  }
+  .tree-item .ind{color:var(--dim2);font-size:9px;}
+  .tree-item.on .ind{color:var(--green);}
+  .tree-item.adm .ind{
+    color:var(--admin);
+    animation:treePulse 1.2s infinite;
+  }
+  @keyframes treePulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+
+  /* ── CENTER: WORKSPACE ──────────────────── */
+  #work{
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    background:var(--bg);
+    min-height:0;
+  }
+  #workHdr{
+    height:26px;
+    background:var(--bg2);
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center;
+    padding:0 14px;
+    font-size:10px; letter-spacing:1.5px;
+    color:var(--ram);
+    text-transform:uppercase;
+    gap:12px;
+    flex-shrink:0;
+    font-family:var(--serif);
+  }
+  #workHdr .path{
+    color:var(--dim);
+    font-size:10px;
+    letter-spacing:0;
+    font-family:var(--mono);
+  }
+  #workHdr .path b{color:var(--ram);}
+  #workHdr .adm-badge{
+    margin-left:auto;
+    font-size:9px;
+    color:var(--admin);
+    background:rgba(255,77,109,0.1);
+    padding:1px 8px;
+    border-radius:3px;
+    letter-spacing:1.5px;
+    font-family:var(--mono);
+    font-weight:bold;
+  }
+  #workBody{
+    flex:1;
+    padding:10px;
+    overflow-y:auto;
+    display:grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap:8px;
+    align-content:start;
+  }
+  #workBody::-webkit-scrollbar{width:8px;}
+  #workBody::-webkit-scrollbar-thumb{background:var(--line);}
+
+  .panel{
+    background:var(--bg2);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:10px 12px;
+    min-width:0;
+    position:relative;
+  }
+  .panel.glow{
+    animation:borderGlow 2.4s ease-in-out infinite;
+  }
+  @keyframes borderGlow{
+    0%,100%{border-color:var(--line);}
+    50%{border-color:rgba(255,204,68,0.3);box-shadow:0 0 12px rgba(255,204,68,0.08) inset;}
+  }
+  .panel.admin-panel{
+    border-left:3px solid var(--admin);
+  }
+  .panel h3{
+    font-size:10px; letter-spacing:1.8px;
+    color:var(--ram);
+    text-transform:uppercase;
+    margin-bottom:8px;
+    padding-bottom:5px;
+    border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between;
+    align-items:center;
+    font-family:var(--serif);
+    font-weight:normal;
+  }
+  .panel h3 .badge{
+    font-size:9px;
+    color:var(--dim);
+    background:var(--bg3);
+    padding:1px 6px;
+    border-radius:3px;
+    letter-spacing:0.5px;
+    font-family:var(--mono);
+  }
+  .panel h3 .badge.ok{color:var(--green);}
+  .panel h3 .badge.warn{color:var(--gold);}
+  .panel h3 .badge.adm{color:var(--admin);}
+  .panel h3 .badge.hdf{color:var(--hdf);}
+
+  /* ── PULS-KERN (RAM) ──────────────────── */
+  #pulsWrap{
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:12px;
+    align-items:center;
+  }
+  @media(max-width:1000px){
+    #pulsWrap{grid-template-columns:1fr;}
+  }
+  #pulsOrbWrap{
+    position:relative;
+    width:280px;
+    height:280px;
+    margin:0 auto;
+  }
+  #pulsOrbWrap svg{position:absolute;inset:0;overflow:visible;}
+  #pulsCore{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:110px; height:110px;
+    border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,
+      #ffffff 0%, #ffe9b0 15%, #ffcc44 35%,
+      #ff8844 65%, #2a0a10 100%);
+    box-shadow:
+      0 0 40px rgba(255,204,68,0.7),
+      0 0 90px rgba(255,77,109,0.5),
+      inset 0 0 30px rgba(255,255,255,0.3);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif);
+    font-size:38px;
+    color:#1a0838;
+    font-weight:bold;
+    text-shadow:0 0 14px rgba(255,255,255,0.6);
+    transition:transform .15s;
+    z-index:3;
+  }
+  #pulsCore.tick{
+    animation:coreTick .3s;
+  }
+  @keyframes coreTick{
+    0%{transform:translate(-50%,-50%) scale(1);}
+    50%{transform:translate(-50%,-50%) scale(1.14);}
+    100%{transform:translate(-50%,-50%) scale(1);}
+  }
+  #pulsNum{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:44px;
+    font-weight:bold;
+    color:#fff;
+    text-shadow:
+      0 0 16px rgba(255,255,255,0.9),
+      0 0 32px rgba(255,204,68,0.8),
+      0 0 48px rgba(255,77,109,0.4);
+    z-index:4;
+    font-family:var(--mono);
+    letter-spacing:-1px;
+  }
+
+  .puls-info{
+    display:flex; flex-direction:column;
+    gap:6px;
+  }
+  .puls-info .hero{
+    font-family:var(--serif);
+    font-size:22px;
+    letter-spacing:6px;
+    color:var(--ram);
+    text-align:center;
+    text-shadow:0 0 20px rgba(255,204,68,0.5);
+  }
+  .puls-info .sub{
+    font-size:10px;
+    color:var(--dim);
+    text-align:center;
+    letter-spacing:2px;
+    margin-bottom:6px;
+  }
+  .puls-info .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+  }
+  .puls-info .cell{
+    background:var(--bg3);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:6px 9px;
+    display:flex; justify-content:space-between;
+    align-items:center;
+    font-size:10px;
+  }
+  .puls-info .cell .k{color:var(--dim);font-size:9.5px;letter-spacing:1px;}
+  .puls-info .cell .v{font-weight:bold;color:var(--fg);font-size:12px;}
+  .puls-info .cell.v1 .v{color:var(--ram);}
+  .puls-info .cell.v2 .v{color:var(--violet);}
+  .puls-info .cell.v3 .v{color:var(--green);}
+  .puls-info .cell.v4 .v{color:var(--cyan);}
+  .puls-info .cell.v5 .v{color:var(--admin);}
+  .puls-info .cell.v6 .v{color:var(--hdf);}
+
+  /* ── MATH-LIVE ────────────────────────── */
+  .math-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:5px;
+  }
+  .math-row{
+    display:grid;
+    grid-template-columns:110px 1fr 70px;
+    gap:8px;
+    align-items:center;
+    padding:5px 0;
+    border-bottom:1px dashed var(--line2);
+    font-size:10.5px;
+  }
+  .math-row:last-child{border-bottom:none;}
+  .math-row .lbl{
+    color:var(--dim);
+    font-size:10px;
+    letter-spacing:1px;
+    font-weight:bold;
+  }
+  .math-row .eq{
+    color:var(--ram2);
+    font-size:10.5px;
+    letter-spacing:0.5px;
+    word-break:break-all;
+  }
+  .math-row .eq .n{color:var(--cyan);font-weight:bold;}
+  .math-row .eq .sym{color:var(--admin);}
+  .math-row .res{
+    text-align:right;
+    color:var(--ram);
+    font-weight:bold;
+    font-size:11px;
+  }
+
+  /* ── RAM-SETS ─────────────────────────── */
+  .set-row{
+    display:grid;
+    grid-template-columns:20px 1fr 65px 55px;
+    gap:6px;
+    align-items:center;
+    padding:4px 0;
+    border-bottom:1px dashed var(--line2);
+    font-size:10px;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .set-row:hover{
+    background:rgba(255,204,68,0.04);
+  }
+  .set-row:last-child{border-bottom:none;}
+  .set-row .ic{
+    color:var(--ram);
+    font-size:12px;
+    text-align:center;
+  }
+  .set-row .name{
+    color:var(--fg);
+    font-weight:bold;
+    letter-spacing:0.5px;
+  }
+  .set-row .name small{
+    color:var(--dim);
+    font-size:8.5px;
+    font-weight:normal;
+    margin-left:4px;
+  }
+  .set-row .cnt{
+    color:var(--violet);
+    text-align:right;
+    font-weight:bold;
+  }
+  .set-row .pw{
+    color:var(--ram);
+    text-align:right;
+    font-weight:bold;
+  }
+
+  /* ── LOGIN / ANMELDUNG ────────────────── */
+  #loginPanel{
+    grid-column:1 / -1;
+    background:linear-gradient(135deg,rgba(255,77,109,0.06),rgba(255,204,68,0.03));
+    border:1px solid rgba(255,77,109,0.2);
+    border-radius:5px;
+    padding:12px 14px;
+  }
+  #loginPanel h3{
+    color:var(--admin);
+    border-bottom-color:rgba(255,77,109,0.15);
+  }
+  .login-wrap{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:10px;
+    align-items:center;
+  }
+  @media(max-width:800px){
+    .login-wrap{grid-template-columns:1fr;}
+  }
+  .login-field{
+    display:flex; flex-direction:column;
+    gap:3px;
+  }
+  .login-field .lbl{
+    font-size:9px;
+    color:var(--dim);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    font-family:var(--serif);
+  }
+  .login-field input{
+    background:#05080c;
+    border:1px solid rgba(255,77,109,0.25);
+    color:var(--ram);
+    font-family:var(--mono);
+    font-size:12px;
+    padding:6px 10px;
+    border-radius:4px;
+    outline:none;
+    letter-spacing:2px;
+  }
+  .login-field input:focus{
+    border-color:var(--admin);
+    box-shadow:0 0 12px rgba(255,77,109,0.3);
+  }
+  .login-btn{
+    background:linear-gradient(135deg,rgba(255,77,109,0.2),rgba(255,204,68,0.1));
+    border:1px solid var(--admin);
+    color:var(--admin);
+    padding:8px 18px;
+    border-radius:4px;
+    font-family:inherit;
+    font-size:11px;
+    letter-spacing:2px;
+    cursor:pointer;
+    transition:.2s;
+    text-transform:uppercase;
+    font-weight:bold;
+  }
+  .login-btn:hover{
+    background:var(--admin);
+    color:#000;
+    box-shadow:0 0 18px rgba(255,77,109,0.6);
+  }
+  .login-state{
+    font-size:10px;
+    color:var(--dim);
+    text-align:center;
+    padding:4px 0;
+    letter-spacing:1px;
+  }
+  .login-state.auth{
+    color:var(--admin);
+    font-weight:bold;
+  }
+  .login-state.ok{
+    color:var(--green);
+    font-weight:bold;
+  }
+
+  /* ── 6×6×RAM Formel ───────────────────── */
+  .formula-box{
+    background:var(--bg3);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:8px 10px;
+    font-size:10px;
+    line-height:1.6;
+  }
+  .formula-box .row{
+    display:flex; justify-content:space-between;
+    padding:2px 0;
+  }
+  .formula-box .row .k{color:var(--dim);}
+  .formula-box .row .v{color:var(--ram);font-weight:bold;}
+  .formula-box .row.total{
+    border-top:1px dashed var(--line2);
+    margin-top:4px;
+    padding-top:4px;
+    font-size:11px;
+  }
+  .formula-box .row.total .v{color:var(--admin);font-size:12px;}
+
+  /* ── RUN-21 / RUN-3 ───────────────────── */
+  .run-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+  }
+  .run-card{
+    background:var(--bg3);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:8px 10px;
+    cursor:pointer;
+    transition:.2s;
+    text-align:center;
+  }
+  .run-card:hover{
+    border-color:var(--ram);
+    background:rgba(255,204,68,0.06);
+  }
+  .run-card.active{
+    border-color:var(--admin);
+    background:rgba(255,77,109,0.1);
+    box-shadow:0 0 12px rgba(255,77,109,0.3);
+  }
+  .run-card .num{
+    font-family:var(--serif);
+    font-size:22px;
+    color:var(--ram);
+    font-weight:bold;
+    letter-spacing:2px;
+  }
+  .run-card.active .num{color:var(--admin);}
+  .run-card .lbl{
+    font-size:9px;
+    color:var(--dim);
+    letter-spacing:1.5px;
+    margin-top:2px;
+  }
+
+  /* ── HDF-VORSCHAU ─────────────────────── */
+  #hdfPreview{
+    border:1px dashed rgba(102,255,204,0.3);
+    background:rgba(102,255,204,0.03);
+    padding:8px 10px;
+    border-radius:4px;
+    font-size:9.5px;
+    color:var(--hdf);
+    line-height:1.6;
+    margin-top:6px;
+  }
+  #hdfPreview .title{
+    color:var(--hdf);
+    font-weight:bold;
+    letter-spacing:1.5px;
+    margin-bottom:4px;
+    font-size:10px;
+  }
+
+  /* ── SYS-SPIEGEL (right col) ─────────── */
+  #sys{
+    background:var(--bg2);
+    border-left:1px solid var(--line);
+    overflow-y:auto;
+    padding:8px 10px;
+    font-size:10.5px;
+  }
+  #sys::-webkit-scrollbar{width:6px;}
+  #sys::-webkit-scrollbar-thumb{background:var(--line);}
+
+  .sys-blk{
+    background:var(--bg3);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:7px 9px;
+    margin-bottom:6px;
+    position:relative;
+  }
+  .sys-blk.admin{
+    border-left:3px solid var(--admin);
+  }
+  .sys-blk.hdf{
+    border-left:3px solid var(--hdf);
+  }
+  .sys-blk.puls::before{
+    content:'';
+    position:absolute;
+    inset:-1px;
+    border-radius:4px;
+    background:linear-gradient(135deg,transparent,rgba(255,204,68,0.12),transparent);
+    pointer-events:none;
+    animation:shimmer 3s linear infinite;
+  }
+  @keyframes shimmer{
+    0%{opacity:.3;}
+    50%{opacity:.7;}
+    100%{opacity:.3;}
+  }
+  .sys-blk .h{
+    font-size:9px;
+    letter-spacing:1.5px;
+    color:var(--dim);
+    text-transform:uppercase;
+    margin-bottom:5px;
+    display:flex; justify-content:space-between;
+    font-family:var(--serif);
+  }
+  .sys-row{
+    display:flex; justify-content:space-between;
+    padding:1.5px 0;
+    font-size:10px;
+  }
+  .sys-row .k{color:var(--dim);}
+  .sys-row .v{color:var(--fg);font-weight:bold;}
+  .sys-row .v.ok{color:var(--green);}
+  .sys-row .v.warn{color:var(--gold);}
+  .sys-row .v.err{color:var(--red);}
+  .sys-row .v.cy{color:var(--cyan);}
+  .sys-row .v.vi{color:var(--violet);}
+  .sys-row .v.ram{color:var(--ram);}
+  .sys-row .v.adm{color:var(--admin);}
+  .sys-row .v.hdf{color:var(--hdf);}
+  .sys-row .v.pk{color:var(--pink);}
+
+  /* ── BOTTOM: CLI ──────────────────────── */
+  #cli{
+    height:140px;
+    background:#05080c;
+    border-top:1px solid var(--line);
+    display:flex; flex-direction:column;
+    flex-shrink:0;
+  }
+  #cliHdr{
+    height:20px;
+    background:var(--bg2);
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center;
+    padding:0 12px;
+    font-size:9px; letter-spacing:1.5px;
+    color:var(--dim);
+    text-transform:uppercase;
+    gap:12px;
+    font-family:var(--serif);
+  }
+  #cliHdr .tab{
+    color:var(--ram);
+    cursor:pointer;
+    letter-spacing:1.5px;
+  }
+  #cliHdr .tab.active{
+    color:var(--admin);
+    border-bottom:1px solid var(--admin);
+    padding-bottom:1px;
+  }
+  #cliHdr .adm-tag{
+    margin-left:auto;
+    color:var(--admin);
+    font-size:9px;
+    letter-spacing:1px;
+  }
+  #log{
+    flex:1;
+    padding:6px 12px;
+    overflow-y:auto;
+    font-size:10px;
+    line-height:1.5;
+    color:var(--dim);
+    font-family:var(--mono);
+  }
+  #log::-webkit-scrollbar{width:6px;}
+  #log::-webkit-scrollbar-thumb{background:var(--line);}
+  #log .ln{white-space:pre-wrap;word-break:break-all;}
+  #log .ts{color:var(--dim2);margin-right:6px;}
+  #log .ok{color:var(--green);}
+  #log .warn{color:var(--gold);}
+  #log .err{color:var(--red);}
+  #log .info{color:var(--cyan);}
+  #log .vio{color:var(--violet);}
+  #log .ram{color:var(--ram);}
+  #log .adm{color:var(--admin);font-weight:bold;}
+  #log .hdf{color:var(--hdf);}
+
+  #cliInput{
+    height:24px;
+    background:var(--bg3);
+    border-top:1px solid var(--line);
+    display:flex; align-items:center;
+    padding:0 12px;
+    font-size:11px;
+    flex-shrink:0;
+  }
+  #cliInput .prompt{
+    color:var(--admin);
+    margin-right:6px;
+    font-weight:bold;
+  }
+  #cliInput input{
+    flex:1;
+    background:transparent;
+    border:none;
+    color:var(--fg);
+    font-family:var(--mono);
+    font-size:11px;
+    outline:none;
+  }
+  #cliInput input::placeholder{color:var(--dim2);}
+
+  /* ── BOOT OVERLAY ─────────────────────── */
+  #boot{
+    position:fixed; inset:0;
+    background:#000;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    gap:14px;
+    z-index:9999;
+    font-size:12px;
+    color:var(--ram);
+    letter-spacing:2px;
+    transition:opacity .6s;
+  }
+  #boot.done{opacity:0;pointer-events:none;}
+  #boot .logo{
+    font-size:44px;
+    color:var(--ram);
+    letter-spacing:10px;
+    font-weight:bold;
+    text-shadow:
+      0 0 30px rgba(255,204,68,0.7),
+      0 0 60px rgba(255,77,109,0.5);
+    animation:logoPulse 2s ease-in-out infinite;
+    font-family:var(--serif);
+  }
+  @keyframes logoPulse{
+    0%,100%{transform:scale(1);filter:brightness(1);}
+    50%{transform:scale(1.03);filter:brightness(1.3);}
+  }
+  #boot .sub{
+    color:var(--admin);
+    font-size:11px;
+    letter-spacing:6px;
+    font-family:var(--serif);
+  }
+  #boot .lines{
+    width:520px; max-width:80%;
+    font-size:11px;
+    line-height:1.7;
+    text-align:left;
+    color:var(--green);
+    letter-spacing:0.5px;
+    font-family:var(--mono);
+  }
+  #boot .lines b{color:var(--ram);}
+  #boot .lines .dim{color:var(--dim2);}
+  #boot .lines .adm{color:var(--admin);}
+  #boot .progress{
+    width:520px; max-width:80%;
+    height:3px;
+    background:var(--bg3);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  #boot .progress .bar{
+    height:100%; width:0%;
+    background:linear-gradient(90deg,var(--ram),var(--admin),var(--hdf));
+    transition:width .3s;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media(max-width:1100px){
+    #main{grid-template-columns: 190px 1fr 240px;}
+    #workBody{grid-template-columns:1fr;}
+  }
+  @media(max-width:820px){
+    #main{grid-template-columns:1fr;}
+    #tree, #sys{display:none;}
   }
 </style>
-
-<script type="module">
-
-/* -----------------------------------------
-   1. VEC + AXIOM empfangen
------------------------------------------- */
-const VEC   = JSON.parse(localStorage.getItem("ALLXALL_LIGHT")) || null;
-const AXIOM = JSON.parse(localStorage.getItem("AXIOM_VEC")) || null;
-
-/* -----------------------------------------
-   2. STAGE laden (Sunnyboy‑Safe‑Load)
------------------------------------------- */
-async function loadStage(){
-    try {
-        const res = await fetch("./stage.html");
-
-        if (!res.ok) {
-            const err = await fetch("./404.html");
-            const errHtml = await err.text();
-            document.getElementById("stagePanel").innerHTML = errHtml;
-            return;
-        }
-
-        const html = await res.text();
-        document.getElementById("stagePanel").innerHTML = html;
-
-    } catch (e) {
-        const err = await fetch("./404.html");
-        const errHtml = await err.text();
-        document.getElementById("stagePanel").innerHTML = errHtml;
-    }
-}
-
-/* -----------------------------------------
-   3. NC‑Router
------------------------------------------- */
-const NC = {
-    S: "./sys/index.html",
-    O: "./O/index.html",
-    D: "./D/index.html",
-    T: "./T/index.html",
-    M: "./B/index.html",
-    H: "./H/index.html"
-};
-
-/* -----------------------------------------
-   4. STAGE‑Move erzeugen
------------------------------------------- */
-function stageEnter(mode){
-    const move = { XI: mode, IX: mode, x4: mode };
-    localStorage.setItem("STAGE_MOVE", JSON.stringify(move));
-    localStorage.setItem("STAGE_MODE", mode);
-    return move;
-}
-
-/* -----------------------------------------
-   5. FUSION erzeugen
------------------------------------------- */
-function fusion(){
-    const STAGE = JSON.parse(localStorage.getItem("STAGE_MOVE")) || null;
-
-    const FUSION = {
-        TEAM: "Team² Work³",
-        VEC,
-        AXIOM,
-        STAGE,
-        MODE: localStorage.getItem("STAGE_MODE"),
-        TIME: Date.now()
-    };
-
-    localStorage.setItem("FUSION_UNIVERSUM", JSON.stringify(FUSION));
-    return FUSION;
-}
-
-/* -----------------------------------------
-   6. Sunnyboy‑Start
------------------------------------------- */
-window.addEventListener("DOMContentLoaded", loadStage);
-
-</script>
 </head>
-
 <body>
 
-<h1>RESPO.ai · Sunnyboy ROOT</h1>
-
-<div class="sunny">
-  <p>ROOT geladen.</p>
-  <p>STAGE wird automatisch gestartet…</p>
+<!-- ═══ BOOT ═══ -->
+<div id="boot">
+  <div class="logo">▣ RAM</div>
+  <div class="sub">ADMIN0 · HDF · RUN-21</div>
+  <div class="lines" id="bootLines"></div>
+  <div class="progress"><div class="bar" id="bootBar"></div></div>
 </div>
 
-<div id="stagePanel" class="sunny"></div>
+<!-- ═══ DESKTOP ═══ -->
+<div id="desk">
 
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <span class="logo">▣ RAM<b>::admin0</b><span class="adm" id="admBadge">ROOT</span></span>
+    <span class="sep"></span>
+    <span style="color:var(--dim);">/root/RAM &gt; index.html</span>
+    <div class="stat">
+      <span>RAM <b class="ram" id="tRam">0%</b></span>
+      <span>CPU <b id="tCpu">0%</b></span>
+      <span>GPU <b class="vio" id="tGpu">0%</b></span>
+      <span>TMP <b class="warn" id="tTmp">0%</b></span>
+      <span>HDF <b class="hdf" id="tHdf">idle</b></span>
+      <span>RUN <b class="adm" id="tRun">—</b></span>
+      <span>FL76 <b id="tFl">76</b></span>
+      <span id="clock">--:--:--</span>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- LEFT: TREE -->
+    <div id="tree">
+      <div class="tree-hdr">▸ RAM-Kern</div>
+      <div class="tree-item active" data-st="ram"><span>▣ RAM</span><span class="ind on">●</span></div>
+      <div class="tree-item adm" data-st="admin0"><span>◉ ADMIN0</span><span class="ind">★</span></div>
+      <div class="tree-item" data-st="resolver"><span>⚙ tmp.hdf.resolver</span><span class="ind on">●</span></div>
+
+      <div class="tree-hdr">▸ 4 Kerne</div>
+      <div class="tree-item" data-st="cpu"><span>◈ CPU · cpu.unit</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="gpu"><span>◆ GPU · GPU.seed</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="ramc"><span>▣ RAM · hardware</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="tmpc"><span>◇ TMP · tmp.sync</span><span class="ind on">●</span></div>
+
+      <div class="tree-hdr">▸ 81 / 9 Matrizen</div>
+      <div class="tree-item" data-st="81"><span>▦ 81.tmp</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="81score"><span>◈ 81.score.js</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="81viewer"><span>◍ 81.viewer.js</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="9"><span>▤ 9.room</span><span class="ind on">●</span></div>
+
+      <div class="tree-hdr">▸ TMP / REAL / ZONE</div>
+      <div class="tree-item" data-st="live"><span>◉ Live.tmp</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="real"><span>◆ REAL.tmp</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="zone"><span>◇ ZONE.tmp</span><span class="ind on">●</span></div>
+
+      <div class="tree-hdr">▸ Ready-Flags</div>
+      <div class="tree-item" data-st="cache"><span>⚑ cache.ready</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="hdfready"><span>⚑ hdf.ready</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="sli"><span>⚑ sli.pover</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="pover"><span>⚑ pover.tmp</span><span class="ind on">●</span></div>
+
+      <div class="tree-hdr">▸ RAM-Module</div>
+      <div class="tree-item" data-st="ramhard"><span>⚙ RAM.hardware.js</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="rammod"><span>⚙ RAM.module</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="ramid"><span>⚙ RAM-ID.js</span><span class="ind on">●</span></div>
+
+      <div class="tree-hdr">▸ RUN-System</div>
+      <div class="tree-item adm" data-st="run21"><span>▶ RUN-21</span><span class="ind">★</span></div>
+      <div class="tree-item" data-st="run3"><span>▶ RUN-3</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="runinf"><span>∞ RUN-∞</span><span class="ind on">●</span></div>
+
+      <div class="tree-hdr">▸ Modus-Achsen</div>
+      <div class="tree-item" data-st="a"><span>a.mode</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="e"><span>e.mode</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="i"><span>i.mode</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="n"><span>n.mode</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="o"><span>o.mode</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="r"><span>r.mode</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="s"><span>s.mode</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="u"><span>u.mode</span><span class="ind on">●</span></div>
+      <div class="tree-item" data-st="w"><span>w.mode</span><span class="ind on">●</span></div>
+
+      <div class="tree-hdr">▸ HDF</div>
+      <div class="tree-item hdf" data-st="hdf"><span>◆ HDF-VORSCHAU</span><span class="ind">→</span></div>
+
+      <div class="tree-hdr">▸ Links</div>
+      <div class="tree-item" data-st="orakel"><span>◈ ORAKEL</span><span class="ind" style="color:var(--cyan)">↗</span></div>
+      <div class="tree-item" data-st="markt"><span>🏪 Markt</span><span class="ind" style="color:var(--cyan)">↗</span></div>
+      <div class="tree-item" data-st="mind"><span>🧠 mind.html</span><span class="ind" style="color:var(--cyan)">↗</span></div>
+    </div>
+
+    <!-- CENTER: WORKSPACE -->
+    <div id="work">
+      <div id="workHdr">
+        <span>▣ RAM · ADMIN0 · RUN-21 · HDF</span>
+        <span class="path">/root/RAM/<b id="workPath">index</b></span>
+        <span class="adm-badge">★ ADMIN</span>
+      </div>
+      <div id="workBody">
+
+        <!-- ADMIN-LOGIN (Anmeldung mit Code) -->
+        <div class="panel admin-panel" id="loginPanel">
+          <h3>◉ ADMIN0 · ANMELDUNG <span class="badge adm" id="authBadge">gesperrt</span></h3>
+          <div class="login-wrap">
+            <div class="login-field">
+              <span class="lbl">User-ID</span>
+              <input type="text" id="userId" placeholder="admin0" value="admin0" autocomplete="off">
+            </div>
+            <div class="login-field">
+              <span class="lbl">Code</span>
+              <input type="password" id="userCode" placeholder="····" maxlength="12" autocomplete="off">
+            </div>
+            <button class="login-btn" id="btnLogin">▶ EINLOGGEN</button>
+          </div>
+          <div class="login-state" id="loginState">
+            ▸ admin0 verlangt Code für ROOT-Zugang
+          </div>
+          <div id="hdfPreview">
+            <div class="title">◆ HDF-VORSCHAU (nach Login)</div>
+            <div>d.hdf.tmp · e.hdf.tmp · i.hdf.tmp · n.hdf.tmp · s.hdf.tmp</div>
+            <div>tmp.hdf.resolver.js · hdf.ready · RAM.hardware.js</div>
+            <div style="color:var(--dim);font-size:9px;margin-top:3px;">
+              HDF wird wie RAM aufgebaut — selbe Struktur, selbe UI-Logik, neue Kernel.
+            </div>
+          </div>
+        </div>
+
+        <!-- PULS-KERN -->
+        <div class="panel glow" style="grid-column:1 / -1;">
+          <h3>▣ RAM-PULS · KERN <span class="badge ram" id="pulsBadge">idle</span></h3>
+          <div id="pulsWrap">
+            <div id="pulsOrbWrap">
+              <svg viewBox="-140 -140 280 280">
+                <circle cx="0" cy="0" r="120" fill="none"
+                  stroke="rgba(255,204,68,0.12)" stroke-width="1"/>
+                <circle cx="0" cy="0" r="95" fill="none"
+                  stroke="rgba(255,77,109,0.12)" stroke-width="0.7" stroke-dasharray="4 8"/>
+                <circle cx="0" cy="0" r="72" fill="none"
+                  stroke="rgba(102,255,204,0.1)" stroke-width="0.7" stroke-dasharray="3 6"/>
+                <circle cx="0" cy="0" r="50" fill="none"
+                  stroke="rgba(95,200,255,0.1)" stroke-width="0.5" stroke-dasharray="2 4"/>
+                <line x1="-120" y1="0" x2="120" y2="0"
+                  stroke="rgba(255,204,68,0.08)" stroke-width="0.5"/>
+                <line x1="0" y1="-120" x2="0" y2="120"
+                  stroke="rgba(255,204,68,0.08)" stroke-width="0.5"/>
+                <g id="orbRings"></g>
+              </svg>
+              <div id="pulsCore">
+                <span id="pulsGlyph">▣</span>
+              </div>
+              <div id="pulsNum">0</div>
+            </div>
+
+            <div class="puls-info">
+              <div class="hero" id="pulsHero">▣ RAM · ADMIN0 ▣</div>
+              <div class="sub">tmp.sync · sli.pover · real.tmp · zone.tmp · 81.score</div>
+              <div class="grid">
+                <div class="cell v1"><span class="k">RAM-LOAD</span><span class="v" id="mRam">0%</span></div>
+                <div class="cell v2"><span class="k">CPU</span><span class="v" id="mCpu">0%</span></div>
+                <div class="cell v3"><span class="k">GPU</span><span class="v" id="mGpu">0%</span></div>
+                <div class="cell v4"><span class="k">TMP</span><span class="v" id="mTmp">0%</span></div>
+                <div class="cell v5"><span class="k">81-SCORE</span><span class="v" id="m81">0</span></div>
+                <div class="cell v6"><span class="k">HDF</span><span class="v" id="mHdf">idle</span></div>
+                <div class="cell v2"><span class="k">REAL</span><span class="v" id="mReal">0.00</span></div>
+                <div class="cell v4"><span class="k">PULS-Hz</span><span class="v" id="mHz">0.0</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MATHEMATIK · LIVE (RAM) -->
+        <div class="panel">
+          <h3>▣ RAM-Mathematik · Live <span class="badge ok" id="mathBadge">rechnet</span></h3>
+          <div class="math-grid" id="mathRows"></div>
+          <div style="display:flex; gap:4px; margin-top:8px; flex-wrap:wrap;">
+            <button class="mbtn ram" id="btnCalc">⟳ calc</button>
+            <button class="mbtn" id="btnSpin">▶ spin</button>
+            <button class="mbtn adm" id="btnRun21">▶ RUN-21</button>
+            <button class="mbtn" id="btnRun3">▶ RUN-3</button>
+          </div>
+        </div>
+
+        <!-- RAM-SETS -->
+        <div class="panel">
+          <h3>▣ RAM · Sets <span class="badge ram" id="setBadge">6 sets</span></h3>
+          <div id="setRows"></div>
+          <div style="display:flex; gap:4px; margin-top:8px; flex-wrap:wrap;">
+            <button class="mbtn ram" id="btnRnd">🎲 streuen</button>
+            <button class="mbtn" id="btnSyncAll">⟳ sync-all</button>
+          </div>
+        </div>
+
+        <!-- 6×6×RAM-6 FORMEL -->
+        <div class="panel">
+          <h3>▣ 6×6×RAM · Formel <span class="badge adm" id="fBadge">∞</span></h3>
+          <div class="formula-box" id="formulaBox"></div>
+        </div>
+
+        <!-- RUN-21 / RUN-3 / RUN-∞ -->
+        <div class="panel">
+          <h3>▣ RUN-System <span class="badge adm" id="runBadge">idle</span></h3>
+          <div class="run-grid">
+            <div class="run-card" id="run21Card">
+              <div class="num">21</div>
+              <div class="lbl">CPU·GPU·RAM·TMP·81·9·REAL·ZONE·RAW</div>
+            </div>
+            <div class="run-card" id="run3Card">
+              <div class="num">3</div>
+              <div class="lbl">CPU · GPU · RAM</div>
+            </div>
+          </div>
+          <div class="run-grid" style="margin-top:6px;">
+            <div class="run-card" id="runinfCard" style="grid-column:1 / -1;">
+              <div class="num">∞</div>
+              <div class="lbl">RUN-21 × RUN-3 × RAM-6 · neverending</div>
+            </div>
+          </div>
+          <div class="run-grid" style="margin-top:6px;">
+            <div class="run-card" id="runStopCard" style="grid-column:1 / -1;">
+              <div class="num" style="color:var(--red);">■</div>
+              <div class="lbl">STOP · alle RUNs anhalten</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: SYS-SPIEGEL -->
+    <div id="sys">
+
+      <div class="sys-blk admin puls">
+        <div class="h"><span>ADMIN0 · ROOT</span><span style="color:var(--admin)">★</span></div>
+        <div class="sys-row"><span class="k">user</span><span class="v adm" id="sUser">admin0</span></div>
+        <div class="sys-row"><span class="k">access</span><span class="v err" id="sAccess">gesperrt</span></div>
+        <div class="sys-row"><span class="k">level</span><span class="v" id="sLevel">—</span></div>
+      </div>
+
+      <div class="sys-blk">
+        <div class="h"><span>RAM-KERN</span><span style="color:var(--ram)">▣</span></div>
+        <div class="sys-row"><span class="k">load</span><span class="v ram" id="sRamLoad">0%</span></div>
+        <div class="sys-row"><span class="k">hit</span><span class="v ok" id="sRamHit">0%</span></div>
+        <div class="sys-row"><span class="k">hardware</span><span class="v cy" id="sRamHw">—</span></div>
+        <div class="sys-row"><span class="k">module</span><span class="v vi" id="sRamMod">—</span></div>
+        <div class="sys-row"><span class="k">id</span><span class="v warn" id="sRamId">—</span></div>
+      </div>
+
+      <div class="sys-blk">
+        <div class="h"><span>CPU · GPU · TMP</span></div>
+        <div class="sys-row"><span class="k">cpu.unit</span><span class="v" id="sCpu">0%</span></div>
+        <div class="sys-row"><span class="k">GPU.seed</span><span class="v vi" id="sGpu">0%</span></div>
+        <div class="sys-row"><span class="k">tmp.sync</span><span class="v warn" id="sTmp">0%</span></div>
+      </div>
+
+      <div class="sys-blk">
+        <div class="h"><span>81 / 9 / REAL / ZONE</span></div>
+        <div class="sys-row"><span class="k">81.score</span><span class="v ram" id="s81">0</span></div>
+        <div class="sys-row"><span class="k">81.delta</span><span class="v cy" id="s81d">0</span></div>
+        <div class="sys-row"><span class="k">81.drift</span><span class="v vi" id="s81dr">0.00</span></div>
+        <div class="sys-row"><span class="k">9.matrix</span><span class="v warn" id="s9">0</span></div>
+        <div class="sys-row"><span class="k">REAL.tmp</span><span class="v pk" id="sReal">0.00</span></div>
+        <div class="sys-row"><span class="k">ZONE.tmp</span><span class="v cy" id="sZone">0</span></div>
+      </div>
+
+      <div class="sys-blk">
+        <div class="h"><span>READY · FLAGS</span></div>
+        <div class="sys-row"><span class="k">cache</span><span class="v ok" id="sCache">ready</span></div>
+        <div class="sys-row"><span class="k">hdf</span><span class="v ok" id="sHdf">ready</span></div>
+        <div class="sys-row"><span class="k">sli</span><span class="v ok" id="sSli">ready</span></div>
+        <div class="sys-row"><span class="k">pover</span><span class="v ok" id="sPover">ready</span></div>
+      </div>
+
+      <div class="sys-blk hdf">
+        <div class="h"><span>HDF · VORSCHAU</span><span style="color:var(--hdf)">◆</span></div>
+        <div class="sys-row"><span class="k">d.hdf.tmp</span><span class="v hdf" id="sHdfD">—</span></div>
+        <div class="sys-row"><span class="k">e.hdf.tmp</span><span class="v hdf" id="sHdfE">—</span></div>
+        <div class="sys-row"><span class="k">i.hdf.tmp</span><span class="v hdf" id="sHdfI">—</span></div>
+        <div class="sys-row"><span class="k">n.hdf.tmp</span><span class="v hdf" id="sHdfN">—</span></div>
+        <div class="sys-row"><span class="k">s.hdf.tmp</span><span class="v hdf" id="sHdfS">—</span></div>
+      </div>
+
+      <div class="sys-blk">
+        <div class="h"><span>FL76 · TICK</span></div>
+        <div class="sys-row"><span class="k">raw</span><span class="v" id="sFlRaw">76 ms</span></div>
+        <div class="sys-row"><span class="k">smooth</span><span class="v ok" id="sFlSm">76 ms</span></div>
+        <div class="sys-row"><span class="k">fenster</span><span class="v ok" id="sFlWin">kaiser</span></div>
+      </div>
+
+      <div class="sys-blk">
+        <div class="h"><span>TASTEN</span></div>
+        <div class="sys-row"><span class="k">C</span><span class="v">calc</span></div>
+        <div class="sys-row"><span class="k">P</span><span class="v">puls</span></div>
+        <div class="sys-row"><span class="k">R21</span><span class="v">run-21</span></div>
+        <div class="sys-row"><span class="k">R3</span><span class="v">run-3</span></div>
+        <div class="sys-row"><span class="k">L</span><span class="v">login</span></div>
+        <div class="sys-row"><span class="k">Space</span><span class="v">sync</span></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- BOTTOM: CLI -->
+  <div id="cli">
+    <div id="cliHdr">
+      <span class="tab active" data-tab="ram">RAM</span>
+      <span class="tab" data-tab="math">MATH</span>
+      <span class="tab" data-tab="sets">SETS</span>
+      <span class="tab" data-tab="hdf">HDF</span>
+      <span class="tab" data-tab="run">RUN</span>
+      <span class="adm-tag">★ admin0</span>
+    </div>
+    <div id="log"></div>
+    <div id="cliInput">
+      <span class="prompt">admin0&gt;</span>
+      <input id="cmdInput" placeholder="befehl: login · calc · run21 · hdf · status · help" autocomplete="off">
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .mbtn{
+    background:var(--bg3);
+    color:var(--fg);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:3px;
+    font-family:inherit;
+    font-size:9.5px;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition:.15s;
+    text-transform:uppercase;
+    flex:1;
+    min-width:60px;
+  }
+  .mbtn:hover{
+    border-color:var(--ram);
+    background:rgba(255,204,68,0.1);
+    color:var(--ram);
+  }
+  .mbtn.ram{border-color:rgba(255,204,68,0.4);color:var(--ram);}
+  .mbtn.ram:hover{background:rgba(255,204,68,0.15);border-color:var(--ram);color:#fff;}
+  .mbtn.adm{border-color:rgba(255,77,109,0.5);color:var(--admin);}
+  .mbtn.adm:hover{background:rgba(255,77,109,0.15);border-color:var(--admin);color:#fff;}
+</style>
+
+<script>
+"use strict";
+// ═══════════════════════════════════════════════════════════════════
+// ▣ RAM · ADMIN0 · HDF · RUN-21 · iki1uc
+// Der RAM-Kernel. Admin0 = ROOT. HDF vorbereitet. RUN-21 aktiv.
+// ═══════════════════════════════════════════════════════════════════
+
+// ─── AUTH-KONSTANTEN (Admin0 = ROOT) ────────────────────
+const ADMIN_USERS = {
+  'admin0': { code: 'iki1uc', level: 'ROOT', color: '#ff4d6d' },
+  'member9': { code: 'club9',  level: 'MEMBER', color: '#b388ff' },
+  'agent':  { code: 'euka',   level: 'AGENT', color: '#8cf0d0' },
+};
+
+// ─── RAM-SETS (6 Kern-Familien) ─────────────────────────
+const SETS = [
+  { id:'tmp',   ic:'◇', name:'TMP',   sub:'sync',        cnt:81,  pw:0.18, w:0.16 },
+  { id:'sli',   ic:'⚡', name:'SLI',   sub:'power',       cnt:64,  pw:0.22, w:0.18 },
+  { id:'81',    ic:'▦', name:'81',    sub:'matrix',      cnt:81,  pw:0.20, w:0.20 },
+  { id:'real',  ic:'◆', name:'REAL',  sub:'realität',    cnt:49,  pw:0.16, w:0.16 },
+  { id:'zone',  ic:'◇', name:'ZONE',  sub:'zonen',       cnt:36,  pw:0.14, w:0.14 },
+  { id:'ram',   ic:'▣', name:'RAM',   sub:'speicher',    cnt:25,  pw:0.10, w:0.16 },
+];
+
+// ─── RAM-MATHEMATIK ─────────────────────────────────────
+const MATH_ROWS = [
+  { id:'ramLoad', lbl:'▣ RAM-Load',    eq:'load = RAM.hw / RAM.mod / RAM.id' },
+  { id:'ramHit',  lbl:'◈ RAM-Hit',     eq:'hit = hits / (hits + misses)' },
+  { id:'score81', lbl:'▦ 81-Score',    eq:'score = Σ(81.tmp × 81.viewer)' },
+  { id:'delta81', lbl:'◆ 81-Delta',    eq:'delta = score - prev_score' },
+  { id:'drift81', lbl:'∿ 81-Drift',    eq:'drift = sqrt(Σ(Δ²) / n)' },
+  { id:'realShift', lbl:'◆ REAL-Shift', eq:'shift = |REAL.tmp - prev_REAL|' },
+  { id:'zoneShift', lbl:'◇ ZONE-Shift', eq:'zone = t × c.zone + sli.pover' },
+  { id:'infFormula', lbl:'∞ ∞-Formel', eq:'∞ = (gold6 × mag6 × ram6) / 6' },
+];
+
+// ─── STATE ──────────────────────────────────────────────
+const S = {
+  tick: 0,
+  pulse: 0,
+  pulsesInSecond: 0,
+  lastPulseT: 0,
+  lastHzSample: 0,
+  pulsHz: 0.8,
+  lastFrameT: 0,
+  flRaw: 76, flSmooth: 76,
+
+  // RAM-Kern
+  ramLoad: 0.42,
+  ramHit: 0.68,
+  ramHw: 0.74,
+  ramMod: 0.58,
+  ramId: 0.86,
+
+  // Kerne
+  cpu: 0.42,
+  gpu: 0.55,
+  tmp: 0.48,
+  sli: 0.72,
+
+  // 81-Matrix
+  score81: 0,
+  prevScore81: 0,
+  delta81: 0,
+  drift81: 0,
+  m81history: [],
+
+  // 9-Matrix
+  matrix9: 81,
+
+  // REAL / ZONE
+  real: 0.5,
+  prevReal: 0.5,
+  zone: 0.5,
+
+  // Ready-Flags
+  cacheReady: true,
+  hdfReady: true,
+  sliReady: true,
+  poverReady: true,
+
+  // HDF-Vorschau (wird später ausgebaut)
+  hdfD: 0, hdfE: 0, hdfI: 0, hdfN: 0, hdfS: 0,
+
+  // 6×6×RAM Formel
+  gold6: 0, mag6: 0, ram6: 0, inf: 0,
+
+  // Auth
+  logged: false,
+  authLevel: '—',
+  authUser: '—',
+
+  // State
+  state: 'idle',
+  spinning: false,
+  spinTimer: null,
+
+  // RUN
+  activeRun: null,
+  runTimer: null,
+  runTicks: 0,
+
+  // History
+  history: [],
+  logHistory: [],
+};
+
+// ─── UTILS ──────────────────────────────────────────────
+function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+function rand(a,b){ return a + Math.random()*(b-a); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+// ─── LOG ────────────────────────────────────────────────
+const logEl = document.getElementById('log');
+function log(msg, cls = '') {
+  const t = new Date().toLocaleTimeString('de-DE');
+  const div = document.createElement('div');
+  div.className = 'ln';
+  div.innerHTML = `<span class="ts">[${t}]</span><span class="${cls}">${msg}</span>`;
+  logEl.appendChild(div);
+  logEl.scrollTop = logEl.scrollHeight;
+  while (logEl.children.length > 100) logEl.removeChild(logEl.firstChild);
+  S.logHistory.push({ t, msg, cls });
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUTH · ANMELDUNG
+// ═══════════════════════════════════════════════════════════
+function login(userId, code) {
+  const user = ADMIN_USERS[userId];
+  if (!user) {
+    log(`✗ Login verweigert · user "${userId}" unbekannt`, 'err');
+    document.getElementById('loginState').textContent = `✗ unbekannter user`;
+    document.getElementById('loginState').className = 'login-state';
+    return false;
+  }
+  if (user.code !== code) {
+    log(`✗ Login verweigert · falscher code für ${userId}`, 'err');
+    document.getElementById('loginState').textContent = `✗ falscher code`;
+    document.getElementById('loginState').className = 'login-state';
+    return false;
+  }
+  S.logged = true;
+  S.authUser = userId;
+  S.authLevel = user.level;
+  document.getElementById('authBadge').textContent = user.level;
+  document.getElementById('authBadge').className = 'badge adm';
+  document.getElementById('loginState').innerHTML =
+    `✓ AUTH · <b style="color:${user.color}">${userId}</b> · level ${user.level}`;
+  document.getElementById('loginState').className = 'login-state ok';
+  document.getElementById('sUser').textContent = userId;
+  document.getElementById('sAccess').textContent = 'freigegeben';
+  document.getElementById('sAccess').className = 'v ok';
+  document.getElementById('sLevel').textContent = user.level;
+  document.getElementById('admBadge').textContent = user.level;
+  log(`✓ LOGIN · ${userId} · level ${user.level}`, 'adm');
+
+  // HDF-Vorschau aktivieren
+  refreshHDF();
+  log(`◆ HDF-Vorschau freigeschaltet · 5 kanäle lesen`, 'hdf');
+  return true;
+}
+
+function refreshHDF() {
+  S.hdfD = Math.floor(Math.random() * 256);
+  S.hdfE = Math.floor(Math.random() * 256);
+  S.hdfI = Math.floor(Math.random() * 256);
+  S.hdfN = Math.floor(Math.random() * 256);
+  S.hdfS = Math.floor(Math.random() * 256);
+  document.getElementById('sHdfD').textContent = S.hdfD;
+  document.getElementById('sHdfE').textContent = S.hdfE;
+  document.getElementById('sHdfI').textContent = S.hdfI;
+  document.getElementById('sHdfN').textContent = S.hdfN;
+  document.getElementById('sHdfS').textContent = S.hdfS;
+}
+
+// ═══════════════════════════════════════════════════════════
+// PULS-KERN
+// ═══════════════════════════════════════════════════════════
+function pulse() {
+  S.pulse++;
+  S.pulsesInSecond++;
+  const core = document.getElementById('pulsCore');
+  core.classList.remove('tick');
+  void core.offsetWidth;
+  core.classList.add('tick');
+  setTimeout(() => core.classList.remove('tick'), 320);
+
+  const num = document.getElementById('pulsNum');
+  const display = (S.score81 + S.pulse) % 9999;
+  num.textContent = display;
+
+  // Farbe je State
+  const colors = {
+    idle:    ['#ffe9b0','#ffcc44','#ff8844'],
+    active:  ['#c8f0ff','#5fc8ff','#b388ff'],
+    spinning:['#ff88b0','#ff4d6d','#b388ff'],
+    run21:   ['#ffb0c8','#ff4d6d','#2a0a10'],
+    run3:    ['#b0fff0','#66ffcc','#5fc8ff'],
+    runinf:  ['#ffffff','#ffcc44','#ff4d6d'],
+    overload:['#ff8888','#ff0044','#2a0000'],
+  };
+  const [c1,c2,c3] = colors[S.state] || colors.idle;
+  core.style.background = `radial-gradient(circle at 40% 35%, #ffffff 0%, ${c1} 15%, ${c2} 35%, ${c3} 65%, #1a0818 100%)`;
+
+  // Orb-Rings
+  document.querySelectorAll('#orbRings circle').forEach((c,i) => {
+    c.setAttribute('r', 60 + i*12 + Math.sin(S.tick * 0.1 + i) * 3);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// RAM-MATHEMATIK
+// ═══════════════════════════════════════════════════════════
+function calcMath() {
+  // RAM-Kern aus Modulen
+  S.ramHw  = clamp01(S.ramHw + rand(-0.02, 0.02));
+  S.ramMod = clamp01(S.ramMod + rand(-0.02, 0.02));
+  S.ramId  = clamp01(S.ramId + rand(-0.02, 0.02));
+  S.ramLoad = (S.ramHw + S.ramMod + S.ramId) / 3;
+  S.ramHit = clamp01(S.ramHit + rand(-0.03, 0.03));
+
+  // CPU/GPU/TMP
+  S.cpu = clamp01(S.cpu + rand(-0.03, 0.03));
+  S.gpu = clamp01(S.gpu + rand(-0.03, 0.03));
+  S.tmp = clamp01(S.tmp + rand(-0.03, 0.03));
+  S.sli = clamp01(S.sli + rand(-0.02, 0.03));
+
+  // 81-Score
+  S.prevScore81 = S.score81;
+  S.score81 = Math.round(
+    (S.ramLoad * 20 + S.cpu * 15 + S.gpu * 15 + S.tmp * 15 + S.sli * 10 + S.ramHit * 26)
+  );
+  if (S.score81 > 81) S.score81 = 81;
+  S.delta81 = S.score81 - S.prevScore81;
+  S.m81history.push(S.score81);
+  if (S.m81history.length > 81) S.m81history.shift();
+  // Drift
+  let sum = 0;
+  for (let i = 1; i < S.m81history.length; i++) {
+    const d = S.m81history[i] - S.m81history[i-1];
+    sum += d * d;
+  }
+  S.drift81 = Math.sqrt(sum / Math.max(1, S.m81history.length - 1));
+
+  // 9-Matrix
+  S.matrix9 = Math.max(1, Math.round(81 - S.score81 * 0.5 + rand(-2, 2)));
+
+  // REAL / ZONE
+  S.prevReal = S.real;
+  S.real = clamp01(S.real + rand(-0.05, 0.05));
+  S.zone = clamp01(S.zone + rand(-0.04, 0.04));
+
+  // 6×6×RAM Formel
+  S.gold6 = (0.85 + 0.72 + 0.99 + 0.64 + 0.58 + 0.41) / 6; // konstante Basis
+  S.mag6  = (1 + 1 + 1 + 1 + 1 + 1) / 6;
+  S.ram6  = (S.ramHw + S.ramMod + S.ramId) / 3;
+  S.inf   = (S.gold6 * S.mag6 * S.ram6) / 6;
+
+  // HDF fluktuieren
+  if (S.logged) refreshHDF();
+
+  // History
+  S.history.push({
+    t: S.tick,
+    ramLoad: S.ramLoad, score81: S.score81, real: S.real, zone: S.zone,
+    inf: S.inf, hz: S.pulsHz,
+  });
+  if (S.history.length > 200) S.history.shift();
+
+  renderMath();
+  renderPulsInfo();
+  renderFormula();
+}
+
+function renderMath() {
+  const el = document.getElementById('mathRows');
+  el.innerHTML = MATH_ROWS.map(r => {
+    let val = '';
+    switch(r.id) {
+      case 'ramLoad':   val = (S.ramLoad*100).toFixed(1) + '%'; break;
+      case 'ramHit':    val = (S.ramHit*100).toFixed(1) + '%'; break;
+      case 'score81':   val = S.score81 + ' / 81'; break;
+      case 'delta81':   val = (S.delta81 >= 0 ? '+' : '') + S.delta81; break;
+      case 'drift81':   val = S.drift81.toFixed(2); break;
+      case 'realShift': val = Math.abs(S.real - S.prevReal).toFixed(4); break;
+      case 'zoneShift': val = S.zone.toFixed(3); break;
+      case 'infFormula':val = S.inf.toFixed(4); break;
+    }
+    return `
+      <div class="math-row">
+        <span class="lbl">${r.lbl}</span>
+        <span class="eq">${r.eq}</span>
+        <span class="res">${val}</span>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('mathBadge').textContent =
+    S.activeRun ? S.activeRun : (S.spinning ? 'spin' : 'rechnet');
+}
+
+function renderFormula() {
+  const el = document.getElementById('formulaBox');
+  el.innerHTML = `
+    <div class="row"><span class="k">goldene 6</span><span class="v">${S.gold6.toFixed(4)}</span></div>
+    <div class="row"><span class="k">magische 6</span><span class="v">${S.mag6.toFixed(4)}</span></div>
+    <div class="row"><span class="k">RAM-6</span><span class="v">${S.ram6.toFixed(4)}</span></div>
+    <div class="row total"><span class="k">∞-Formel = (g6 × m6 × r6) / 6</span><span class="v">${S.inf.toFixed(5)}</span></div>
+  `;
+  document.getElementById('fBadge').textContent = S.inf.toFixed(3);
+}
+
+function renderPulsInfo() {
+  document.getElementById('mRam').textContent = (S.ramLoad*100).toFixed(0) + '%';
+  document.getElementById('mCpu').textContent = (S.cpu*100).toFixed(0) + '%';
+  document.getElementById('mGpu').textContent = (S.gpu*100).toFixed(0) + '%';
+  document.getElementById('mTmp').textContent = (S.tmp*100).toFixed(0) + '%';
+  document.getElementById('m81').textContent = S.score81;
+  document.getElementById('mHdf').textContent = S.logged ? 'aktiv' : 'idle';
+  document.getElementById('mReal').textContent = S.real.toFixed(2);
+  document.getElementById('mHz').textContent = S.pulsHz.toFixed(1);
+
+  // Top-Bar
+  document.getElementById('tRam').textContent = (S.ramLoad*100).toFixed(0) + '%';
+  document.getElementById('tCpu').textContent = (S.cpu*100).toFixed(0) + '%';
+  document.getElementById('tGpu').textContent = (S.gpu*100).toFixed(0) + '%';
+  document.getElementById('tTmp').textContent = (S.tmp*100).toFixed(0) + '%';
+  document.getElementById('tHdf').textContent = S.logged ? 'ready' : 'idle';
+
+  // Sys-Spiegel
+  document.getElementById('sRamLoad').textContent = (S.ramLoad*100).toFixed(0) + '%';
+  document.getElementById('sRamHit').textContent = (S.ramHit*100).toFixed(0) + '%';
+  document.getElementById('sRamHw').textContent = (S.ramHw*100).toFixed(0) + '%';
+  document.getElementById('sRamMod').textContent = (S.ramMod*100).toFixed(0) + '%';
+  document.getElementById('sRamId').textContent = (S.ramId*100).toFixed(0) + '%';
+  document.getElementById('sCpu').textContent = (S.cpu*100).toFixed(0) + '%';
+  document.getElementById('sGpu').textContent = (S.gpu*100).toFixed(0) + '%';
+  document.getElementById('sTmp').textContent = (S.tmp*100).toFixed(0) + '%';
+  document.getElementById('s81').textContent = S.score81;
+  document.getElementById('s81d').textContent = (S.delta81 >= 0 ? '+' : '') + S.delta81;
+  document.getElementById('s81dr').textContent = S.drift81.toFixed(2);
+  document.getElementById('s9').textContent = S.matrix9;
+  document.getElementById('sReal').textContent = S.real.toFixed(3);
+  document.getElementById('sZone').textContent = S.zone.toFixed(3);
+}
+
+// ═══════════════════════════════════════════════════════════
+// SETS
+// ═══════════════════════════════════════════════════════════
+function renderSets() {
+  const el = document.getElementById('setRows');
+  el.innerHTML = SETS.map(s => `
+    <div class="set-row" data-id="${s.id}">
+      <span class="ic">${s.ic}</span>
+      <span class="name">${s.name}<small>${s.sub}</small></span>
+      <span class="cnt">${s.cnt}</span>
+      <span class="pw">${s.pw.toFixed(3)}</span>
+    </div>
+  `).join('');
+
+  el.querySelectorAll('.set-row').forEach(r => {
+    r.addEventListener('click', () => {
+      const s = SETS.find(x => x.id === r.dataset.id);
+      if (s) {
+        s.cnt = Math.max(1, s.cnt + Math.floor(rand(-3, 4)));
+        s.pw = clamp01(s.pw + rand(-0.05, 0.05));
+        log(`▣ SET ${s.name} · cnt=${s.cnt} · pw=${s.pw.toFixed(3)}`, 'ram');
+        renderSets();
+        calcMath();
+      }
+    });
+  });
+
+  document.getElementById('setBadge').textContent = `${SETS.length} sets`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// RUN-SYSTEM
+// ═══════════════════════════════════════════════════════════
+function startRun21() {
+  stopAllRuns();
+  S.activeRun = 'run21';
+  S.state = 'run21';
+  S.runTicks = 0;
+  document.getElementById('run21Card').classList.add('active');
+  document.getElementById('runBadge').textContent = 'RUN-21 · aktiv';
+  document.getElementById('tRun').textContent = '21';
+  document.getElementById('pulsBadge').textContent = 'run21';
+  log('▶ RUN-21 gestartet · 21 stufen-pipeline', 'adm');
+  S.runTimer = setInterval(() => {
+    S.runTicks++;
+    // Intensivere Dynamik
+    SETS.forEach(s => {
+      s.pw = clamp01(s.pw + rand(-0.06, 0.08));
+      s.cnt = Math.max(1, s.cnt + Math.floor(rand(-4, 5)));
+    });
+    calcMath();
+    pulse();
+    if (S.runTicks % 21 === 0) log(`▣ RUN-21 · zyklus ${S.runTicks/21} abgeschlossen`, 'ram');
+    if (S.runTicks > 210) stopAllRuns();
+  }, 200);
+}
+
+function startRun3() {
+  stopAllRuns();
+  S.activeRun = 'run3';
+  S.state = 'run3';
+  S.runTicks = 0;
+  document.getElementById('run3Card').classList.add('active');
+  document.getElementById('runBadge').textContent = 'RUN-3 · aktiv';
+  document.getElementById('tRun').textContent = '3';
+  document.getElementById('pulsBadge').textContent = 'run3';
+  log('▶ RUN-3 gestartet · cpu · gpu · ram', 'ok');
+  S.runTimer = setInterval(() => {
+    S.runTicks++;
+    // Nur CPU/GPU/RAM
+    S.cpu = clamp01(S.cpu + rand(-0.05, 0.06));
+    S.gpu = clamp01(S.gpu + rand(-0.05, 0.06));
+    S.ramLoad = clamp01(S.ramLoad + rand(-0.05, 0.06));
+    calcMath();
+    pulse();
+    if (S.runTicks % 3 === 0) log(`▣ RUN-3 · zyklus ${S.runTicks/3}`, 'ok');
+    if (S.runTicks > 90) stopAllRuns();
+  }, 400);
+}
+
+function startRunInf() {
+  stopAllRuns();
+  S.activeRun = 'runinf';
+  S.state = 'runinf';
+  S.runTicks = 0;
+  document.getElementById('runinfCard').classList.add('active');
+  document.getElementById('runBadge').textContent = 'RUN-∞ · neverending';
+  document.getElementById('tRun').textContent = '∞';
+  document.getElementById('pulsBadge').textContent = 'run∞';
+  log('∞ RUN-∞ gestartet · neverending ever forever', 'adm');
+  S.runTimer = setInterval(() => {
+    S.runTicks++;
+    SETS.forEach(s => {
+      s.pw = clamp01(s.pw + rand(-0.05, 0.08));
+      s.cnt = Math.max(1, s.cnt + Math.floor(rand(-5, 6)));
+    });
+    calcMath();
+    pulse();
+    if (S.runTicks % 63 === 0) log(`∞ RUN-∞ · zyklus ${S.runTicks/63} · läuft`, 'adm');
+  }, 180);
+}
+
+function stopAllRuns() {
+  if (S.runTimer) { clearInterval(S.runTimer); S.runTimer = null; }
+  S.activeRun = null;
+  S.state = 'idle';
+  S.runTicks = 0;
+  document.querySelectorAll('.run-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('runBadge').textContent = 'idle';
+  document.getElementById('tRun').textContent = '—';
+  document.getElementById('pulsBadge').textContent = 'idle';
+  log('■ alle RUNs gestoppt', 'warn');
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOOP
+// ═══════════════════════════════════════════════════════════
+function loop(now) {
+  S.tick++;
+
+  // Puls-Rhythmus
+  const interval = S.state === 'run21' ? 220 :
+                   S.state === 'run3' ? 400 :
+                   S.state === 'runinf' ? 180 :
+                   S.state === 'spinning' ? 350 :
+                   S.state === 'active' ? 700 : 1200;
+  if (now - S.lastPulseT > interval) {
+    S.lastPulseT = now;
+    pulse();
+    calcMath();
+  }
+
+  // Hz
+  if (now - S.lastHzSample > 1000) {
+    S.pulsHz = S.pulsesInSecond;
+    S.pulsesInSecond = 0;
+    S.lastHzSample = now;
+  }
+
+  if (S.tick % 30 === 0) updateClock();
+
+  requestAnimationFrame(loop);
+}
+
+// ═══════════════════════════════════════════════════════════
+// FL76
+// ═══════════════════════════════════════════════════════════
+function tickFl(now) {
+  if (S.lastFrameT > 0) {
+    S.flRaw = now - S.lastFrameT;
+    S.flSmooth = S.flSmooth * 0.88 + S.flRaw * 0.12;
+  }
+  S.lastFrameT = now;
+  const fl = Math.round(S.flSmooth);
+  document.getElementById('tFl').textContent = fl;
+  document.getElementById('sFlRaw').textContent = Math.round(S.flRaw) + ' ms';
+  document.getElementById('sFlSm').textContent = fl + ' ms';
+  const win = fl >= 60 && fl <= 90 ? 'kaiser' : (fl < 40 || fl > 120 ? 'outside' : 'edge');
+  document.getElementById('sFlWin').textContent = win;
+  document.getElementById('sFlWin').className = 'v ' + (win === 'kaiser' ? 'ok' : win === 'edge' ? 'warn' : 'err');
+  requestAnimationFrame(tickFl);
+}
+
+function updateClock() {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString('de-DE');
+}
+
+// ═══════════════════════════════════════════════════════════
+// ORB-RINGS
+// ═══════════════════════════════════════════════════════════
+function buildOrbRings() {
+  const g = document.getElementById('orbRings');
+  if (!g) return;
+  const colors = ['#ffcc44','#ff4d6d','#66ffcc','#5fc8ff','#b388ff','#8cf0d0'];
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2;
+    const r = 60 + i * 12;
+    const x = Math.cos(angle) * r;
+    const y = Math.sin(angle) * r;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', x);
+    circle.setAttribute('cy', y);
+    circle.setAttribute('r', 4);
+    circle.setAttribute('fill', 'rgba(4,6,12,0.9)');
+    circle.setAttribute('stroke', colors[i]);
+    circle.setAttribute('stroke-width', '1.4');
+    circle.setAttribute('opacity', '0.85');
+    g.appendChild(circle);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// CLI
+// ═══════════════════════════════════════════════════════════
+function handleCmd(cmd) {
+  const c = cmd.trim().toLowerCase();
+  if (!c) return;
+  log(`admin0> ${cmd}`, 'info');
+  if (c === 'help') log('befehle: login <user> <code> · calc · puls · run21 · run3 · runinf · stop · sync · hdf · status · ram · 81 · real · zone · sets · raw', 'ok');
+  else if (c.startsWith('login ')) {
+    const p = c.split(/\s+/);
+    login(p[1], p[2]);
+  }
+  else if (c === 'calc') { calcMath(); pulse(); }
+  else if (c === 'puls') { pulse(); S.state = 'active'; document.getElementById('pulsBadge').textContent = 'active'; }
+  else if (c === 'run21') startRun21();
+  else if (c === 'run3') startRun3();
+  else if (c === 'runinf') startRunInf();
+  else if (c === 'stop') stopAllRuns();
+  else if (c === 'sync') { calcMath(); log(`sync · ram=${(S.ramLoad*100).toFixed(1)}% · 81=${S.score81} · inf=${S.inf.toFixed(4)}`, 'ram'); }
+  else if (c === 'hdf') {
+    if (!S.logged) { log('✗ HDF gesperrt · erst login', 'err'); return; }
+    refreshHDF();
+    log(`◆ HDF · d=${S.hdfD} e=${S.hdfE} i=${S.hdfI} n=${S.hdfN} s=${S.hdfS}`, 'hdf');
+  }
+  else if (c === 'status') {
+    log(`status · tick=${S.tick} pulse=${S.pulse} state=${S.state} user=${S.authUser} level=${S.authLevel} ram=${(S.ramLoad*100).toFixed(0)}% 81=${S.score81}`, 'ok');
+  }
+  else if (c === 'ram') log(`ram · load=${(S.ramLoad*100).toFixed(1)}% hit=${(S.ramHit*100).toFixed(1)}% hw=${(S.ramHw*100).toFixed(1)}% mod=${(S.ramMod*100).toFixed(1)}% id=${(S.ramId*100).toFixed(1)}%`, 'ram');
+  else if (c === '81') log(`81 · score=${S.score81} delta=${S.delta81} drift=${S.drift81.toFixed(3)}`, 'ram');
+  else if (c === 'real') log(`REAL.tmp=${S.real.toFixed(3)} shift=${Math.abs(S.real - S.prevReal).toFixed(4)}`, 'info');
+  else if (c === 'zone') log(`ZONE.tmp=${S.zone.toFixed(3)}`, 'info');
+  else if (c === 'sets') log(`sets · ${SETS.map(s => s.name+'('+s.cnt+')').join(' · ')}`, 'ok');
+  else if (c === 'raw') log(`raw · sli=${S.sli.toFixed(2)} hdf=${S.hdfReady?'ready':'off'} cache=${S.cacheReady?'ready':'off'}`, 'ok');
+  else if (c === 'reset') {
+    S.score81 = 0; S.pulse = 0; S.tick = 0; S.state = 'idle';
+    stopAllRuns();
+    log('⟲ reset · ram zurück', 'warn');
+  }
+  else log(`unbekannt: ${c} · tippe "help"`, 'err');
+}
+
+document.getElementById('cmdInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    handleCmd(e.target.value);
+    e.target.value = '';
+  }
+});
+
+// CLI Tabs
+document.querySelectorAll('#cliHdr .tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('#cliHdr .tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    log(`▸ Log-Tab: ${t.dataset.tab.toUpperCase()}`, 'info');
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
+// TREE
+// ═══════════════════════════════════════════════════════════
+document.querySelectorAll('#tree .tree-item').forEach(t => {
+  t.addEventListener('click', () => {
+    const st = t.dataset.st;
+    document.querySelectorAll('#tree .tree-item').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('workPath').textContent = st;
+
+    if (st === 'ram') { log('▣ RAM · kern aktiv', 'ram'); return; }
+    if (st === 'admin0') { log('◉ ADMIN0 · root-zugang', 'adm'); return; }
+    if (st === 'resolver') { log('⚙ tmp.hdf.resolver.js · RAM-kernel', 'ram'); return; }
+    if (st === 'cpu') { log('◈ cpu.unit · cpu-kern', 'info'); return; }
+    if (st === 'gpu') { log('◆ GPU.seed · gpu-kern', 'vio'); return; }
+    if (st === 'ramc') { log('▣ RAM.hardware.js · ram-kern', 'ram'); return; }
+    if (st === 'tmpc') { log('◇ tmp.sync · tmp-kern', 'warn'); return; }
+    if (st === '81') { log('▦ 81.tmp · matrix geladen', 'ram'); return; }
+    if (st === '81score') { log(`◈ 81.score.js · score=${S.score81}`, 'ram'); return; }
+    if (st === '81viewer') { log('◍ 81.viewer.js · visualisierung', 'ram'); return; }
+    if (st === '9') { log('▤ 9.room · 9-matrix aktiv', 'info'); return; }
+    if (st === 'live') { log('◉ Live.tmp · live-stream', 'ram'); return; }
+    if (st === 'real') { log(`◆ REAL.tmp=${S.real.toFixed(3)}`, 'info'); return; }
+    if (st === 'zone') { log(`◇ ZONE.tmp=${S.zone.toFixed(3)}`, 'info'); return; }
+    if (st === 'cache') { log('⚑ cache.ready · cache aktiv', 'ok'); return; }
+    if (st === 'hdfready') { log('⚑ hdf.ready · hdf bereit', 'hdf'); return; }
+    if (st === 'sli') { log('⚑ sli.pover · sli aktiv', 'ok'); return; }
+    if (st === 'pover') { log('⚑ pover.tmp · power aktiv', 'ok'); return; }
+    if (st === 'ramhard') { log('⚙ RAM.hardware.js', 'ram'); return; }
+    if (st === 'rammod') { log('⚙ RAM.module', 'ram'); return; }
+    if (st === 'ramid') { log('⚙ RAM-ID.js', 'ram'); return; }
+    if (st === 'run21') { startRun21(); return; }
+    if (st === 'run3') { startRun3(); return; }
+    if (st === 'runinf') { startRunInf(); return; }
+    if (st.startsWith('a') && st.length === 1 ||
+        st.startsWith('e') && st.length === 1 ||
+        st.startsWith('i') && st.length === 1 ||
+        st.startsWith('n') && st.length === 1 ||
+        st.startsWith('o') && st.length === 1 ||
+        st.startsWith('r') && st.length === 1 ||
+        st.startsWith('s') && st.length === 1 ||
+        st.startsWith('u') && st.length === 1 ||
+        st.startsWith('w') && st.length === 1) {
+      log(`◈ achse ${st}.mode · aktiv`, 'info');
+      return;
+    }
+    if (st === 'hdf') {
+      if (!S.logged) { log('✗ HDF gesperrt', 'err'); return; }
+      refreshHDF();
+      log('◆ HDF-vorschau aktualisiert', 'hdf');
+      return;
+    }
+    if (st === 'orakel') { window.open('../orakel/index.html', '_blank'); return; }
+    if (st === 'markt') { window.open('../markt/index.html', '_blank'); return; }
+    if (st === 'mind') { window.open('../mind.html', '_blank'); return; }
+    log(`▸ ${st}`, 'info');
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
+// BUTTONS
+// ═══════════════════════════════════════════════════════════
+document.getElementById('btnLogin').addEventListener('click', () => {
+  const u = document.getElementById('userId').value.trim();
+  const c = document.getElementById('userCode').value.trim();
+  login(u, c);
+});
+
+document.getElementById('userCode').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('btnLogin').click();
+});
+
+document.getElementById('btnCalc').addEventListener('click', () => { calcMath(); pulse(); });
+document.getElementById('btnSpin').addEventListener('click', () => {
+  if (S.spinTimer) {
+    clearInterval(S.spinTimer); S.spinTimer = null; S.spinning = false;
+    S.state = 'active'; document.getElementById('pulsBadge').textContent = 'active';
+    log('⏸ spin gestoppt', 'warn');
+    return;
+  }
+  S.spinning = true; S.state = 'spinning';
+  document.getElementById('pulsBadge').textContent = 'spin';
+  S.spinTimer = setInterval(() => {
+    SETS.forEach(s => {
+      s.cnt = Math.max(1, s.cnt + Math.floor(rand(-5, 6)));
+      s.pw = clamp01(s.pw + rand(-0.08, 0.08));
+    });
+    calcMath();
+    pulse();
+  }, 250);
+  log('▶ spin gestartet · sets rotieren', 'ram');
+});
+document.getElementById('btnRun21').addEventListener('click', startRun21);
+document.getElementById('btnRun3').addEventListener('click', startRun3);
+document.getElementById('btnRnd').addEventListener('click', () => {
+  SETS.forEach(s => {
+    s.cnt = Math.floor(rand(1, 100));
+    s.pw = clamp01(rand(0, 0.5));
+  });
+  renderSets(); calcMath();
+  log('🎲 sets gestreut', 'warn');
+});
+document.getElementById('btnSyncAll').addEventListener('click', () => {
+  calcMath();
+  log(`⟳ sync-all · ram=${(S.ramLoad*100).toFixed(0)}% 81=${S.score81} inf=${S.inf.toFixed(4)}`, 'ram');
+});
+
+document.getElementById('run21Card').addEventListener('click', startRun21);
+document.getElementById('run3Card').addEventListener('click', startRun3);
+document.getElementById('runinfCard').addEventListener('click', startRunInf);
+document.getElementById('runStopCard').addEventListener('click', stopAllRuns);
+
+// ═══════════════════════════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'c' || e.key === 'C') { calcMath(); pulse(); }
+  if (e.key === 'p' || e.key === 'P') { pulse(); S.state = 'active'; document.getElementById('pulsBadge').textContent = 'active'; }
+  if (e.key === 'y' || e.key === 'Y') { calcMath(); }
+  if (e.key === ' ') { e.preventDefault(); calcMath(); pulse(); }
+  if (e.key === 'l' || e.key === 'L') document.getElementById('userId').focus();
+});
+
+// ═══════════════════════════════════════════════════════════
+// BOOT SEQUENZ (21 Stufen)
+// ═══════════════════════════════════════════════════════════
+const BOOT_LINES = [
+  ['▸ NC-BIOS <b>ok</b> <span class="dim">· RAM-slot mounted</span>', 200],
+  ['▸ tmp.sync <b>ok</b> <span class="dim">· tick-engine</span>', 220],
+  ['▸ sli.pover <b>ok</b> <span class="dim">· power-modus</span>', 220],
+  ['▸ 81.tmp.js <b>init</b> <span class="dim">· matrix 81</span>', 240],
+  ['▸ 81.score.js <b>init</b> <span class="dim">· score-engine</span>', 220],
+  ['▸ 81.viewer.js <b>init</b> <span class="dim">· viewer</span>', 200],
+  ['▸ REAL.tmp.js <b>ok</b> <span class="dim">· realitäts-modus</span>', 220],
+  ['▸ ZONE.tmp <b>ok</b> <span class="dim">· zonen-modus</span>', 200],
+  ['▸ RAM.hardware.js <b>ok</b> <span class="dim">· ram-kern</span>', 220],
+  ['▸ RAM.module <b>ok</b> <span class="dim">· modul-layer</span>', 200],
+  ['▸ RAM-ID.js <b>ok</b> <span class="dim">· identität</span>', 200],
+  ['▸ GPU.seed <b>ok</b> <span class="dim">· gpu-kern</span>', 220],
+  ['▸ cpu.unit <b>ok</b> <span class="dim">· cpu-kern</span>', 200],
+  ['▸ cache.ready <b>✓</b> <span class="dim">· cache aktiv</span>', 180],
+  ['▸ hdf.ready <b>✓</b> <span class="dim">· hdf bereit</span>', 200],
+  ['▸ pover.tmp <b>✓</b> <span class="dim">· power aktiv</span>', 180],
+  ['▸ Live.tmp <b>aktiv</b> <span class="dim">· live-stream</span>', 220],
+  ['▸ REAL.tmp <b>aktiv</b> <span class="dim">· real läuft</span>', 220],
+  ['▸ ZONE.tmp <b>aktiv</b> <span class="dim">· zone läuft</span>', 200],
+  ['▸ ADMIN0 <b class="adm">angemeldet</b> <span class="dim">· warte auf code</span>', 280],
+  ['▸ RUN-21 <b class="adm">bereit</b> <span class="dim">· 21 stufen · all systems go</span>', 260],
+];
+
+function bootSequence() {
+  const linesEl = document.getElementById('bootLines');
+  const barEl = document.getElementById('bootBar');
+  linesEl.innerHTML = '';
+  let i = 0, total = 0;
+  const totalDur = BOOT_LINES.reduce((a,b) => a+b[1], 0);
+
+  function next() {
+    if (i >= BOOT_LINES.length) {
+      barEl.style.width = '100%';
+      setTimeout(() => document.getElementById('boot').classList.add('done'), 400);
+      return;
+    }
+    const [txt, delay] = BOOT_LINES[i];
+    const div = document.createElement('div');
+    div.innerHTML = txt;
+    linesEl.appendChild(div);
+    total += delay;
+    barEl.style.width = ((total / totalDur) * 100).toFixed(1) + '%';
+    i++;
+    setTimeout(next, delay);
+  }
+  next();
+}
+
+// ═══════════════════════════════════════════════════════════
+// MESSAGES
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('message', (ev) => {
+  const d = ev.data;
+  if (!d || !d.type) return;
+  if (d.type === 'arg.sync') {
+    log(`⬇ SYNC ← root`, 'vio');
+    calcMath();
+  }
+  if (d.type === 'sys.ready') log('⬇ sys.ready · root verbunden', 'ok');
+  if (d.type === 'reset') handleCmd('reset');
+  if (d.type === 'pulse') pulse();
+});
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function init() {
+  bootSequence();
+  buildOrbRings();
+  renderMath();
+  renderSets();
+  renderFormula();
+  renderPulsInfo();
+  calcMath();
+
+  // Startwerte
+  S.hdfD = 0; S.hdfE = 0; S.hdfI = 0; S.hdfN = 0; S.hdfS = 0;
+
+  // Erster Puls
+  setTimeout(() => {
+    pulse();
+    S.state = 'active';
+    document.getElementById('pulsBadge').textContent = 'active';
+  }, 1200);
+
+  log('▣ RAM · ADMIN0 · HDF-VORSCHAU · RUN-21 bereit', 'ram');
+  log('▸ admin0 ist ROOT · anmeldung mit user + code erforderlich', 'adm');
+  log('▸ RAM-Kern: tmp.hdf.resolver.js aktiv', 'ram');
+  log('▸ 81-matrix · REAL.tmp · ZONE.tmp · sli.pover geladen', 'info');
+  log('▸ tasten: C=calc · P=puls · Space=sync · L=login', 'ok');
+  log('▸ CLI: "help" für befehle · "login admin0 iki1uc" für ROOT', 'adm');
+
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type:'ram.ready', from:'ram' }, '*');
+    }
+  } catch(_){}
+
+  requestAnimationFrame(tickFl);
+  requestAnimationFrame(loop);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+// ═══════════════════════════════════════════════════════════
+// PUBLIC API
+// ═══════════════════════════════════════════════════════════
+window.RAM = {
+  login:  (u,c) => login(u,c),
+  calc:   () => { calcMath(); pulse(); },
+  pulse:  () => pulse(),
+  sync:   () => calcMath(),
+  run21:  () => startRun21(),
+  run3:   () => startRun3(),
+  runinf: () => startRunInf(),
+  stop:   () => stopAllRuns(),
+  hdf:    () => { if (S.logged) { refreshHDF(); return { d:S.hdfD, e:S.hdfE, i:S.hdfI, n:S.hdfN, s:S.hdfS }; } return null; },
+  cmd:    (c) => handleCmd(c),
+  state:  () => ({
+    tick: S.tick, pulse: S.pulse, state: S.state,
+    logged: S.logged, authUser: S.authUser, authLevel: S.authLevel,
+    ramLoad: S.ramLoad, ramHit: S.ramHit,
+    ramHw: S.ramHw, ramMod: S.ramMod, ramId: S.ramId,
+    cpu: S.cpu, gpu: S.gpu, tmp: S.tmp, sli: S.sli,
+    score81: S.score81, delta81: S.delta81, drift81: S.drift81,
+    real: S.real, zone: S.zone,
+    inf: S.inf, gold6: S.gold6, mag6: S.mag6, ram6: S.ram6,
+    pulsHz: S.pulsHz, activeRun: S.activeRun,
+    hdf: S.logged ? { d:S.hdfD, e:S.hdfE, i:S.hdfI, n:S.hdfN, s:S.hdfS } : null,
+  }),
+  sets:   () => SETS.map(s => ({ ...s })),
+  math:   () => MATH_ROWS.map(r => ({ ...r })),
+  history:() => S.history.slice(),
+  logs:   () => S.logHistory.slice(-50),
+};
+window.R = window.RAM;
+
+console.log('%c▣ RAM · ADMIN0 · HDF · RUN-21 geladen',
+  'color:#ffcc44;font-weight:bold;font-size:14px;');
+console.log('→ window.RAM.login("admin0","iki1uc") · .calc() · .run21() · .state()');
+console.log('→ admin0 ist ROOT · HDF-Vorschau nach Login freigeschaltet');
+</script>
 </body>
 </html>
